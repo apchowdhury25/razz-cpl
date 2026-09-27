@@ -15,24 +15,15 @@
   font-family: "Nirmala UI", "Segoe UI", "Kalpurush", "Noto Sans Bengali", sans-serif;
 }
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
+html, body { margin: 0; padding: 0; width: 100%; background: var(--paper); color: var(--ink); overflow-x: hidden; }
 a { color: var(--teal); text-decoration: none; }
 a:hover { text-decoration: underline; }
-.layout { display: grid; grid-template-columns: var(--sidebar) 8px 1fr; min-height: 100vh; }
+.layout { display: grid; grid-template-columns: var(--sidebar) minmax(0, 1fr); width: 100%; min-height: 100vh; }
 .sidebar {
   background: linear-gradient(180deg, #0c3233 0%, #0f3d3e 55%, #123f38 100%);
   color: #f4efe4; padding: 22px 16px 32px; position: sticky; top: 0; height: 100vh; overflow: auto;
   min-width: 0;
 }
-.splitter {
-  cursor: col-resize; background: #d4cbb8; border-left: 1px solid #c2b8a3; border-right: 1px solid #ece6d8;
-  position: sticky; top: 0; height: 100vh; z-index: 4;
-}
-.splitter:hover, .splitter:focus, body.is-resizing .splitter {
-  background: var(--gold); outline: none;
-}
-body.is-resizing { cursor: col-resize; user-select: none; }
-body.is-resizing iframe, body.is-resizing img { pointer-events: none; }
 .brand { padding: 4px 4px 16px; border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 14px; }
 .brand-link { display: block; text-decoration: none; }
 .brand-logo {
@@ -44,7 +35,7 @@ body.is-resizing iframe, body.is-resizing img { pointer-events: none; }
   display: block; color: #efe7d6; padding: 7px 10px; border-radius: 8px; margin: 1px 0; font-size: 13.5px;
 }
 .nav a:hover, .nav a.active { background: rgba(255,255,255,.08); text-decoration: none; }
-.main { padding: 22px 28px 48px; min-width: 0; }
+.main { padding: 22px 28px 48px; min-width: 0; width: 100%; background: var(--paper); }
 .topbar { display: flex; justify-content: space-between; gap: 16px; align-items: center; margin-bottom: 18px; }
 .crumbs { color: var(--muted); font-size: 13px; }
 .userbox { display: flex; gap: 10px; align-items: center; }
@@ -112,7 +103,6 @@ textarea { min-height: 80px; }
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .layout { grid-template-columns: 1fr; }
   .sidebar { position: relative; height: auto; }
-  .splitter { display: none; }
 }
 @media (max-width: 720px) {
   .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
