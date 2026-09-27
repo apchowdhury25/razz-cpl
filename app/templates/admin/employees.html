@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('employees') }}{% endblock %}
+{% block content %}
+{% if can_write %}
+<div class="card"><form method="post" action="/admin/employees/new"><input type="hidden" name="csrf" value="{{ csrf }}">
+<div class="grid grid-2">
+<p><label>Code</label><input name="code" required></p>
+<p><label>Name</label><input name="name" required></p>
+<p><label>Designation</label><input name="designation"></p>
+<p><label>Phone</label><input name="phone"></p>
+</div>
+<button class="btn">Add</button>
+</form></div>
+{% endif %}
+<div class="card section"><table>
+<tr><th>Code</th><th>Name</th><th>Designation</th><th>Phone</th></tr>
+{% for e in items %}
+<tr><td>{{ e.code }}</td><td>{{ e.name }}</td><td>{{ e.designation }}</td><td>{{ e.phone }}</td></tr>
+{% endfor %}
+</table></div>
+{% endblock %}

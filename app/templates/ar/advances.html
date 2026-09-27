@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block heading %}Advance / unallocated receipts{% endblock %}
+{% block content %}
+<div class="card"><table>
+<tr><th>Receipt</th><th>Date</th><th>Customer</th><th class="num">Amount</th><th class="num">Unallocated</th></tr>
+{% for r in items %}
+<tr><td><a href="/receipts/{{ r.id }}">{{ r.receipt_no }}</a></td><td>{{ r.receipt_date|dmy }}</td><td>{{ r.customer.name if r.customer else '' }}</td><td class="num">{{ r.amount|money }}</td><td class="num">{{ r.unallocated_amount|money }}</td></tr>
+{% endfor %}
+</table></div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('vendors') }}{% endblock %}
+{% block content %}
+<div class="toolbar"><form><input name="q" value="{{ q }}" placeholder="{{ t('search') }}"></form>{% if can_write %}<a class="btn" href="/vendors/new">{{ t('add') }}</a>{% endif %}</div>
+<div class="card"><table>
+<tr><th>Code</th><th>Name</th><th>Type</th><th>TDS %</th><th></th></tr>
+{% for v in page.rows %}
+<tr><td>{{ v.code }}</td><td><a href="/vendors/{{ v.id }}">{{ v.name }}</a></td><td>{{ v.vendor_type }}</td><td>{{ v.default_tds_percent }}</td><td>{% if can_write %}<a href="/vendors/{{ v.id }}/edit">Edit</a>{% endif %}</td></tr>
+{% endfor %}
+</table>{% include "partials/pager.html" %}</div>
+{% endblock %}

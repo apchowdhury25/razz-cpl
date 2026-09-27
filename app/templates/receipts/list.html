@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('receipts') }}{% endblock %}
+{% block content %}
+<div class="toolbar">
+<form class="toolbar">
+<input name="q" value="{{ q }}" placeholder="Receipt / ref">
+<select name="status"><option value="">Status</option>{% for s in ['DRAFT','POSTED','CANCELLED'] %}<option {% if status==s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select>
+<select name="project_id"><option value="">Project</option>{% for p in projects %}<option value="{{ p.id }}" {% if project_id==p.id %}selected{% endif %}>{{ p.code }}</option>{% endfor %}</select>
+<select name="customer_id"><option value="">Customer</option>{% for c in customers %}<option value="{{ c.id }}" {% if customer_id==c.id %}selected{% endif %}>{{ c.name }}</option>{% endfor %}</select>
+<input type="date" name="date_from"><input type="date" name="date_to">
+<button class="btn secondary">Filter</button>
+</form>
+{% if can_write %}<a class="btn" href="/receipts/new">{{ t('add') }}</a>{% endif %}
+<a class="btn ghost" href="?export=1">Export Excel</a>
+<a class="btn ghost" href="/ar/advances">Advances</a>
+</div>
+<div class="card"><table>
+<tr><th>No</th><th>Date</th><th>Customer</th><th class="num">Amount</th><th>Method</th><th>Status</th></tr>
+{% for r in page.rows %}
+<tr><td><a href="/receipts/{{ r.id }}">{{ r.receipt_no }}</a></td><td>{{ r.receipt_date|dmy }}</td><td>{{ r.customer.name if r.customer else '' }}</td><td class="num">{{ r.amount|money }}</td><td>{{ r.payment_method }}</td><td><span class="status {{ r.status }}">{{ r.status }}</span></td></tr>
+{% endfor %}
+</table>{% include "partials/pager.html" %}</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block heading %}Project cash flow{% endblock %}
+{% block content %}
+<div class="card"><table>
+<tr><th>Project</th><th class="num">Cash collected</th><th class="num">Cash paid</th><th class="num">Net cash</th></tr>
+{% for s in summaries %}
+<tr><td>{{ s.project.code }} {{ s.project.name }}</td><td class="num">{{ s.cash_collected|money }}</td><td class="num">{{ s.cash_paid|money }}</td><td class="num">{{ (s.cash_collected - s.cash_paid)|money }}</td></tr>
+{% endfor %}
+</table></div>
+{% endblock %}

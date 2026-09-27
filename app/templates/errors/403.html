@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block heading %}Not authorized{% endblock %}
+{% block content %}<div class="card"><p>{{ message or t('unauthorized') }}</p><p><a href="/">Back to dashboard</a></p></div>{% endblock %}

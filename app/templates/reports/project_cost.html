@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block heading %}Project cost{% endblock %}
+{% block content %}
+<div class="card"><table>
+<tr><th>Project</th><th class="num">Cost</th><th class="num">Budget</th><th class="num">Utilization</th></tr>
+{% for s in summaries %}
+<tr><td>{{ s.project.code }} {{ s.project.name }}</td><td class="num">{{ s.cost|money }}</td><td class="num">{{ s.budget|money }}</td><td class="num">{{ s.budget_util }}%</td></tr>
+{% endfor %}
+</table></div>
+{% endblock %}

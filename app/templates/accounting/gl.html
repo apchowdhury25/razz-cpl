@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('general_ledger') }}{% endblock %}
+{% block content %}
+<form class="toolbar">
+<p><label>Account</label><select name="account_id">{% for a in accounts %}<option value="{{ a.id }}" {% if account_id==a.id %}selected{% endif %}>{{ a.code }} {{ a.name }}</option>{% endfor %}</select></p>
+<p><label>From</label><input type="date" name="date_from" value="{{ date_from.isoformat() if date_from else '' }}"></p>
+<p><label>To</label><input type="date" name="date_to" value="{{ date_to.isoformat() if date_to else '' }}"></p>
+<p><label>Project</label><select name="project_id"><option value=""></option>{% for p in projects %}<option value="{{ p.id }}" {% if project_id==p.id %}selected{% endif %}>{{ p.code }}</option>{% endfor %}</select></p>
+<button class="btn secondary">Open</button>
+{% if account %}<a class="btn" href="?account_id={{ account.id }}&export=1">Export Excel</a>{% endif %}
+</form>
+{% if account %}
+<div class="card">
+<p>Opening {{ opening|money }}</p>
+<table>
+<tr><th>Date</th><th>Journal</th><th>Document</th><th>Description</th><th class="num">Debit</th><th class="num">Credit</th><th class="num">Balance</th></tr>
+{% for l in lines %}
+<tr><td>{{ l.date|dmy }}</td><td>{{ l.entry_no }}</td><td>{{ l.document }}</td><td>{{ l.description }}</td><td class="num">{{ l.debit|money }}</td><td class="num">{{ l.credit|money }}</td><td class="num">{{ l.balance|money }}</td></tr>
+{% endfor %}
+</table>
+</div>
+{% endif %}
+{% endblock %}

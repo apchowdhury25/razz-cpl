@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('project_pnl') }}{% endblock %}
+{% block content %}
+<p class="muted">Gross result = recognized project revenue − recognized project cost. Cash collected and bills paid are shown separately and are not a P&amp;L.</p>
+<p><a class="btn" href="?export=1">Export Excel</a> <button class="btn ghost" onclick="window.print()">Print</button></p>
+<div class="card"><table>
+<tr><th>Project</th><th>Mode</th><th class="num">Revenue</th><th class="num">Cost</th><th class="num">Gross result</th><th class="num">Receivable</th><th class="num">Payable</th><th class="num">Cash in</th><th class="num">Cash out</th></tr>
+{% for s in summaries %}
+<tr>
+<td><a href="/reports/project/{{ s.project.id }}">{{ s.project.code }}</a> {{ s.project.name }}</td>
+<td>{{ s.project.mode }}</td>
+<td class="num">{{ s.revenue|money }}</td>
+<td class="num">{{ s.cost|money }}</td>
+<td class="num">{{ s.gross_result|money }}</td>
+<td class="num">{{ s.receivable|money }}</td>
+<td class="num">{{ s.payable|money }}</td>
+<td class="num">{{ s.cash_collected|money }}</td>
+<td class="num">{{ s.cash_paid|money }}</td>
+</tr>
+{% endfor %}
+</table></div>
+{% endblock %}

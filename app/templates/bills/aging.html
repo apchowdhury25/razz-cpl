@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('ap_aging') }}{% endblock %}
+{% block content %}
+<form class="toolbar">
+<p><label>As of</label><input type="date" name="as_of" value="{{ as_of.isoformat() }}"></p>
+<p><label>Project</label><select name="project_id"><option value=""></option>{% for p in projects %}<option value="{{ p.id }}" {% if project_id==p.id %}selected{% endif %}>{{ p.code }}</option>{% endfor %}</select></p>
+<p><label>Vendor</label><select name="vendor_id"><option value=""></option>{% for v in vendors %}<option value="{{ v.id }}" {% if vendor_id==v.id %}selected{% endif %}>{{ v.name }}</option>{% endfor %}</select></p>
+<button class="btn secondary">Filter</button>
+<a class="btn" href="?as_of={{ as_of.isoformat() }}&export=1">Export Excel</a>
+</form>
+<div class="grid grid-4">
+<div class="card kpi"><div class="label">Total</div><div class="value">{{ totals.total|money }}</div></div>
+<div class="card kpi"><div class="label">Current</div><div class="value">{{ totals.current|money }}</div></div>
+<div class="card kpi warn"><div class="label">Overdue</div><div class="value">{{ totals.overdue|money }}</div></div>
+</div>
+<div class="card section"><table>
+<tr><th>Vendor</th><th>Bill</th><th>Due</th><th>Days</th><th>Bucket</th><th class="num">Outstanding</th></tr>
+{% for r in rows %}
+<tr><td>{{ r.vendor }}</td><td>{{ r.bill_no }}</td><td>{{ r.due_date|dmy }}</td><td>{{ r.days }}</td><td>{{ r.bucket }}</td><td class="num">{{ r.outstanding|money }}</td></tr>
+{% endfor %}
+</table></div>
+{% endblock %}

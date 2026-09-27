@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('reports') }}{% endblock %}
+{% block content %}
+<div class="grid grid-3">
+<div class="card"><h3>AR</h3>
+<p><a href="/ar/aging">AR Aging</a></p>
+<p><a href="/ar/ledger">Customer Ledger / Statement</a></p>
+<p><a href="/ar/outstanding">Outstanding Receivables</a></p>
+<p><a href="/ar/outstanding?overdue=1">Overdue Receivables</a></p>
+<p><a href="/receipts?export=1">Receipts Register (Excel)</a></p>
+</div>
+<div class="card"><h3>AP</h3>
+<p><a href="/ap/aging">AP Aging</a></p>
+<p><a href="/ap/ledger">Vendor Ledger / Statement</a></p>
+<p><a href="/ap/outstanding">Outstanding Payables</a></p>
+<p><a href="/payments?export=1">Payments Register (Excel)</a></p>
+</div>
+<div class="card"><h3>Project</h3>
+<p><a href="/reports/project-pnl">Project P&amp;L</a></p>
+<p><a href="/reports/project-cost">Project Cost</a></p>
+<p><a href="/reports/project-cashflow">Project Cash Flow</a></p>
+</div>
+<div class="card"><h3>Cash / Bank</h3>
+<p><a href="/cash/book">Cash Book</a></p>
+<p><a href="/cash/bank-book">Bank Book</a></p>
+<p><a href="/cash/accounts">Cash &amp; Bank balances</a></p>
+</div>
+<div class="card"><h3>Accounting</h3>
+<p><a href="/accounting/gl">General Ledger</a></p>
+<p><a href="/accounting/trial-balance">Trial Balance</a></p>
+<p><a href="/accounting/journals">Journal register</a></p>
+</div>
+<div class="card"><h3>Tax</h3>
+<p><a href="/tax/tds">TDS Payable</a></p>
+<p><a href="/tax/vat">VAT / Input VAT</a></p>
+</div>
+<div class="card"><h3>Period</h3>
+<p><a href="/reports/daily">Daily transactions</a></p>
+<p><a href="/reports/monthly">Monthly transactions</a></p>
+</div>
+</div>
+{% endblock %}

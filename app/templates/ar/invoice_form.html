@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block heading %}New demand / invoice{% endblock %}
+{% block content %}
+<div class="card"><form method="post"><input type="hidden" name="csrf" value="{{ csrf }}">
+<div class="grid grid-2">
+<p><label>Date</label><input type="date" name="invoice_date" required></p>
+<p><label>Due date</label><input type="date" name="due_date" required></p>
+<p><label>Customer</label><select name="customer_id" required>{% for c in customers %}<option value="{{ c.id }}">{{ c.name }}</option>{% endfor %}</select></p>
+<p><label>Project</label><select name="project_id"><option value=""></option>{% for p in projects %}<option value="{{ p.id }}">{{ p.code }}</option>{% endfor %}</select></p>
+<p><label>Unit</label><select name="unit_id"><option value=""></option>{% for u in units %}<option value="{{ u.id }}">{{ u.project.code if u.project else '' }} {{ u.unit_number }}</option>{% endfor %}</select></p>
+<p><label>Amount</label><input name="amount" required></p>
+<p><label>VAT %</label><input name="vat_percent" value="0"></p>
+</div>
+<p><label>Description</label><textarea name="description"></textarea></p>
+<button class="btn">{{ t('save') }}</button>
+</form></div>
+{% endblock %}

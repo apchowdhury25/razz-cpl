@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block heading %}{{ item.booking_no }}{% endblock %}
+{% block content %}
+<div class="card">
+<p>{{ item.customer.name }} · {{ item.project.code }} {{ item.unit.unit_number }} · {{ item.booking_date|dmy }}</p>
+<p>Agreed price <strong>{{ item.agreed_price|money }}</strong></p>
+<h3>Payment schedule / demands</h3>
+<table><tr><th>#</th><th>Description</th><th>Due</th><th class="num">%</th><th class="num">Amount</th></tr>
+{% for s in item.schedules %}<tr><td>{{ s.installment_no }}</td><td>{{ s.description }}</td><td>{{ s.due_date|dmy }}</td><td class="num">{{ s.percent }}</td><td class="num">{{ s.amount|money }}</td></tr>{% endfor %}
+</table>
+</div>
+{% endblock %}

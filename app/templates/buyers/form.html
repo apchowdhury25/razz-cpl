@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block heading %}{{ 'Edit customer' if item else 'New customer' }}{% endblock %}
+{% block content %}
+<div class="card"><form method="post"><input type="hidden" name="csrf" value="{{ csrf }}">
+<div class="grid grid-2">
+<p><label>Name</label><input name="name" value="{{ item.name if item else '' }}" required></p>
+<p><label>বাংলা</label><input name="name_bn" value="{{ item.name_bn if item else '' }}"></p>
+<p><label>Father's name</label><input name="father_name" value="{{ item.father_name if item else '' }}"></p>
+<p><label>NID</label><input name="nid" value="{{ item.nid if item else '' }}"></p>
+<p><label>Phone</label><input name="phone" value="{{ item.phone if item else '' }}"></p>
+<p><label>Email</label><input name="email" value="{{ item.email if item else '' }}"></p>
+</div>
+<p><label>Address</label><textarea name="address">{{ item.address if item else '' }}</textarea></p>
+<p><label>Notes</label><textarea name="notes">{{ item.notes if item else '' }}</textarea></p>
+{% if item %}<p><label><input type="checkbox" name="is_active" value="1" {% if item.is_active %}checked{% endif %}> Active</label></p>{% endif %}
+<button class="btn">{{ t('save') }}</button>
+</form></div>
+{% endblock %}

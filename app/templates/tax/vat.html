@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('vat_report') }}{% endblock %}
+{% block content %}
+<form class="toolbar">
+<input type="date" name="date_from" value="{{ date_from.isoformat() if date_from else '' }}">
+<input type="date" name="date_to" value="{{ date_to.isoformat() if date_to else '' }}">
+<select name="project_id"><option value="">Project</option>{% for p in projects %}<option value="{{ p.id }}" {% if project_id==p.id %}selected{% endif %}>{{ p.code }}</option>{% endfor %}</select>
+<button class="btn secondary">Filter</button>
+<a class="btn" href="?export=1">Export Excel</a>
+</form>
+<div class="card">
+<p>This is an internal VAT/input VAT register, not an official NBR return.</p>
+<table>
+<tr><th>Date</th><th>Vendor</th><th>Bill</th><th>Mushak</th><th class="num">Taxable</th><th>%</th><th class="num">VAT</th></tr>
+{% for r in rows %}
+<tr><td>{{ r.bill_date|dmy }}</td><td>{{ r.vendor.name if r.vendor else '' }}</td><td>{{ r.bill_no }}</td><td>{{ r.mushak_ref }}</td><td class="num">{{ r.gross_amount|money }}</td><td>{{ r.vat_percent }}</td><td class="num">{{ r.vat_amount|money }}</td></tr>
+{% endfor %}
+<tr><th colspan="6">Total input VAT</th><th class="num">{{ total|money }}</th></tr>
+</table>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block heading %}New vendor bill{% endblock %}
+{% block content %}
+<div class="card"><form method="post"><input type="hidden" name="csrf" value="{{ csrf }}">
+<div class="grid grid-2">
+<p><label>Bill date</label><input type="date" name="bill_date" required></p>
+<p><label>Due date</label><input type="date" name="due_date" required></p>
+<p><label>Vendor</label><select name="vendor_id" required>{% for v in vendors %}<option value="{{ v.id }}" data-tds="{{ v.default_tds_percent }}">{{ v.name }} (TDS {{ v.default_tds_percent }}%)</option>{% endfor %}</select></p>
+<p><label>Project</label><select name="project_id"><option value=""></option>{% for p in projects %}<option value="{{ p.id }}">{{ p.code }}</option>{% endfor %}</select></p>
+<p><label>Vendor bill ref</label><input name="vendor_bill_ref"></p>
+<p><label>Mushak-6.3</label><input name="mushak_ref"></p>
+<p><label>Gross amount</label><input id="gross_amount" name="gross_amount" required></p>
+<p><label>VAT %</label><input id="vat_percent" name="vat_percent" value="{{ settings.default_vat_percent if settings else 15 }}"></p>
+<p><label>TDS %</label><input id="tds_percent" name="tds_percent" value="0"></p>
+<p><label>Retention %</label><input id="retention_percent" name="retention_percent" value="0"></p>
+<p><label>TDS category</label><select name="tds_category_id"><option value=""></option>{% for c in tds_categories %}<option value="{{ c.id }}">{{ c.name }} ({{ c.percent }}%)</option>{% endfor %}</select></p>
+<p><label>Cost account</label><select name="cost_account_id">{% for a in accounts %}<option value="{{ a.id }}">{{ a.code }} {{ a.name }}</option>{% endfor %}</select></p>
+</div>
+<p><label>Description</label><textarea name="description"></textarea></p>
+<p><label>Notes</label><textarea name="notes"></textarea></p>
+<div class="card">
+Preview (backend recalculates on save): VAT <span id="preview_vat">৳ 0.00</span> · TDS <span id="preview_tds">৳ 0.00</span> · Retention <span id="preview_ret">৳ 0.00</span> · Net <strong id="preview_net">৳ 0.00</strong>
+</div>
+<button class="btn">{{ t('save') }}</button>
+</form></div>
+{% endblock %}

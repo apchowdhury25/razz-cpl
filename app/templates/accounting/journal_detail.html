@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block heading %}{{ item.entry_no }}{% endblock %}
+{% block content %}
+<div class="card">
+<p>{{ item.entry_date|dmy }} · {{ item.source_module }} {{ item.source_document }} · <span class="status {{ item.status }}">{{ item.status }}</span></p>
+<p>{{ item.description }}</p>
+<table>
+<tr><th>Account</th><th class="num">Debit</th><th class="num">Credit</th><th>Narration</th></tr>
+{% for l in item.lines %}
+<tr><td>{{ l.account.code }} {{ l.account.name }}</td><td class="num">{{ l.debit|money }}</td><td class="num">{{ l.credit|money }}</td><td>{{ l.description }}</td></tr>
+{% endfor %}
+<tr><th>Total</th><th class="num">{{ item.total_debit|money }}</th><th class="num">{{ item.total_credit|money }}</th><th></th></tr>
+</table>
+</div>
+{% endblock %}

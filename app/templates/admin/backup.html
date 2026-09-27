@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('backup') }}{% endblock %}
+{% block content %}
+<div class="card">
+<p>SQLite database: <code>{{ db_url }}</code></p>
+<form method="post"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="btn">Create backup now</button></form>
+<p class="muted">Uses SQLite's online backup API. You can also stop the app and copy the .db file.</p>
+<table>
+<tr><th>File</th><th></th></tr>
+{% for f in files %}
+<tr><td>{{ f.name }}</td><td><a href="/admin/backup/download/{{ f.name }}">Download</a></td></tr>
+{% endfor %}
+</table>
+</div>
+{% endblock %}

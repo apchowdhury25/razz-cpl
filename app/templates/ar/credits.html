@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block heading %}Customer credit notes{% endblock %}
+{% block content %}
+{% if can_write %}
+<div class="card"><form method="post" action="/ar/credits/new"><input type="hidden" name="csrf" value="{{ csrf }}">
+<div class="grid grid-2">
+<p><label>Date</label><input type="date" name="credit_date" required></p>
+<p><label>Customer</label><select name="customer_id">{% for c in customers %}<option value="{{ c.id }}">{{ c.name }}</option>{% endfor %}</select></p>
+<p><label>Invoice (optional)</label><select name="invoice_id"><option value=""></option>{% for i in invoices %}<option value="{{ i.id }}">{{ i.invoice_no }}</option>{% endfor %}</select></p>
+<p><label>Amount</label><input name="amount" required></p>
+</div>
+<p><label>Reason</label><textarea name="reason"></textarea></p>
+<button class="btn">Post credit note</button>
+</form></div>
+{% endif %}
+<div class="card section"><table>
+<tr><th>No</th><th>Date</th><th>Customer</th><th class="num">Amount</th><th>Status</th></tr>
+{% for n in items %}
+<tr><td>{{ n.credit_no }}</td><td>{{ n.credit_date|dmy }}</td><td>{{ n.customer.name if n.customer else '' }}</td><td class="num">{{ n.amount|money }}</td><td>{{ n.status }}</td></tr>
+{% endfor %}
+</table></div>
+{% endblock %}

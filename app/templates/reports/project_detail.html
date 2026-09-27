@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block heading %}{{ summary.project.code }} accounting{% endblock %}
+{% block content %}
+<div class="grid grid-4">
+<div class="card kpi"><div class="label">Revenue</div><div class="value">{{ summary.revenue|money }}</div></div>
+<div class="card kpi"><div class="label">Cost</div><div class="value">{{ summary.cost|money }}</div></div>
+<div class="card kpi"><div class="label">Gross result</div><div class="value">{{ summary.gross_result|money }}</div></div>
+<div class="card kpi"><div class="label">Receivable</div><div class="value">{{ summary.receivable|money }}</div></div>
+</div>
+<p class="muted">Cash collected {{ summary.cash_collected|money }} · Cash paid {{ summary.cash_paid|money }} · Budget {{ summary.budget|money }}</p>
+{% endblock %}

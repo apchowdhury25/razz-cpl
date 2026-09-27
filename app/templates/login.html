@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8">
+  <title>{{ t('login') }} · {{ t('app_name') }}</title>
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+<div class="login-wrap">
+  <div class="login-card">
+    <h2>Razz CNPL Accounts</h2>
+    <p class="muted">Internal AR / AP / project accounting — Dhaka</p>
+    {% for item in flash_messages %}
+      <div class="flash {{ item.category }}">{{ item.message }}</div>
+    {% endfor %}
+    <form method="post" action="/login">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
+      <p><label>Username</label><input name="username" autofocus required></p>
+      <p><label>Password</label><input name="password" type="password" required></p>
+      <button class="btn" type="submit">{{ t('login') }}</button>
+    </form>
+    <div class="demo">
+      <strong>{{ t('demo_warning') }}</strong><br>
+      admin / admin123<br>
+      accounts / accounts123<br>
+      manager / manager123<br>
+      auditor / auditor123
+    </div>
+  </div>
+</div>
+</body>
+</html>

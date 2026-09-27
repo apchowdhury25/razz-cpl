@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('payments') }}{% endblock %}
+{% block content %}
+<div class="toolbar">
+<form class="toolbar">
+<input name="q" value="{{ q }}">
+<select name="status"><option value="">Status</option>{% for s in ['DRAFT','POSTED','CANCELLED'] %}<option {% if status==s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select>
+<select name="vendor_id"><option value="">Vendor</option>{% for v in vendors %}<option value="{{ v.id }}" {% if vendor_id==v.id %}selected{% endif %}>{{ v.name }}</option>{% endfor %}</select>
+<button class="btn secondary">Filter</button>
+</form>
+{% if can_write %}<a class="btn" href="/payments/new">{{ t('add') }}</a>{% endif %}
+<a class="btn ghost" href="?export=1">Export Excel</a>
+</div>
+<div class="card"><table>
+<tr><th>No</th><th>Date</th><th>Vendor</th><th class="num">Amount</th><th>Method</th><th>Status</th></tr>
+{% for p in page.rows %}
+<tr><td><a href="/payments/{{ p.id }}">{{ p.payment_no }}</a></td><td>{{ p.payment_date|dmy }}</td><td>{{ p.vendor.name if p.vendor else '' }}</td><td class="num">{{ p.amount|money }}</td><td>{{ p.payment_method }}</td><td><span class="status {{ p.status }}">{{ p.status }}</span></td></tr>
+{% endfor %}
+</table>{% include "partials/pager.html" %}</div>
+{% endblock %}

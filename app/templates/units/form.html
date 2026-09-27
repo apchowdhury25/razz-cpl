@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block heading %}{{ 'Edit unit' if item else 'New unit' }}{% endblock %}
+{% block content %}
+<div class="card">
+<form method="post">
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  <div class="grid grid-2">
+    <p><label>Project</label>
+      <select name="project_id" required {% if item %}disabled{% endif %}>
+        {% for p in projects %}<option value="{{ p.id }}" {% if item and item.project_id==p.id %}selected{% endif %}>{{ p.code }} — {{ p.name }}</option>{% endfor %}
+      </select>
+    </p>
+    <p><label>Unit number</label><input name="unit_number" value="{{ item.unit_number if item else '' }}" required></p>
+    <p><label>Floor</label><input name="floor" value="{{ item.floor if item else '' }}"></p>
+    <p><label>Size (sft)</label><input name="size_sft" value="{{ item.size_sft if item else '' }}"></p>
+    <p><label>Base price</label><input name="base_price" value="{{ item.base_price if item else '' }}"></p>
+    <p><label>Sale price</label><input name="sale_price" value="{{ item.sale_price if item else '' }}"></p>
+    <p><label>Status</label>
+      <select name="status">{% for s in ['UNSOLD','RESERVED','BOOKED','SOLD','CANCELLED'] %}<option {% if item and item.status==s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select>
+    </p>
+  </div>
+  <p><label>Notes</label><textarea name="notes">{{ item.notes if item else '' }}</textarea></p>
+  <button class="btn">{{ t('save') }}</button>
+</form>
+</div>
+{% endblock %}

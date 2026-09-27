@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ t('app_name') }}{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar no-print">
+    <div class="brand">
+      <div class="mark">RC</div>
+      <div>
+        <h1>{{ settings.name if settings else 'Razz CNPL' }}</h1>
+        <small>{{ t('app_name') }}</small>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="/" class="{{ 'active' if nav=='dashboard' }}">{{ t('dashboard') }}</a>
+      <div class="nav-group">{{ t('receivables') }}</div>
+      <a href="/customers" class="{{ 'active' if nav=='customers' }}">{{ t('customers') }}</a>
+      <a href="/bookings" class="{{ 'active' if nav=='bookings' }}">{{ t('bookings') }}</a>
+      <a href="/ar/invoices" class="{{ 'active' if nav=='invoices' }}">{{ t('demands') }}</a>
+      <a href="/receipts" class="{{ 'active' if nav=='receipts' }}">{{ t('receipts') }}</a>
+      <a href="/ar/aging" class="{{ 'active' if nav=='ar_aging' }}">{{ t('ar_aging') }}</a>
+      <a href="/ar/ledger" class="{{ 'active' if nav=='customer_ledger' }}">{{ t('customer_ledger') }}</a>
+      <div class="nav-group">{{ t('payables') }}</div>
+      <a href="/vendors" class="{{ 'active' if nav=='vendors' }}">{{ t('vendors') }}</a>
+      <a href="/bills" class="{{ 'active' if nav=='bills' }}">{{ t('bills') }}</a>
+      <a href="/payments" class="{{ 'active' if nav=='payments' }}">{{ t('payments') }}</a>
+      <a href="/ap/aging" class="{{ 'active' if nav=='ap_aging' }}">{{ t('ap_aging') }}</a>
+      <a href="/ap/ledger" class="{{ 'active' if nav=='vendor_ledger' }}">{{ t('vendor_ledger') }}</a>
+      <div class="nav-group">{{ t('projects') }}</div>
+      <a href="/projects" class="{{ 'active' if nav=='projects' }}">{{ t('projects') }}</a>
+      <a href="/units" class="{{ 'active' if nav=='units' }}">{{ t('units') }}</a>
+      <a href="/reports/project-pnl" class="{{ 'active' if nav=='project_pnl' }}">{{ t('project_pnl') }}</a>
+      <div class="nav-group">{{ t('cash_bank') }}</div>
+      <a href="/cash/accounts" class="{{ 'active' if nav=='cash' }}">{{ t('cash_bank') }}</a>
+      <a href="/cash/book" class="{{ 'active' if nav=='cash_book' }}">{{ t('cash_book') }}</a>
+      <a href="/cash/bank-book" class="{{ 'active' if nav=='bank_book' }}">{{ t('bank_book') }}</a>
+      <div class="nav-group">{{ t('accounting') }}</div>
+      <a href="/accounting/coa" class="{{ 'active' if nav=='coa' }}">{{ t('chart_of_accounts') }}</a>
+      <a href="/accounting/journals" class="{{ 'active' if nav=='journals' }}">{{ t('journals') }}</a>
+      <a href="/accounting/gl" class="{{ 'active' if nav=='gl' }}">{{ t('general_ledger') }}</a>
+      <a href="/accounting/trial-balance" class="{{ 'active' if nav=='trial_balance' }}">{{ t('trial_balance') }}</a>
+      <div class="nav-group">{{ t('tax') }}</div>
+      <a href="/tax/vat" class="{{ 'active' if nav=='vat' }}">{{ t('vat_report') }}</a>
+      <a href="/tax/tds" class="{{ 'active' if nav=='tds' }}">{{ t('tds_report') }}</a>
+      <a href="/tax/settings" class="{{ 'active' if nav=='tax_settings' }}">{{ t('tax_settings') }}</a>
+      <div class="nav-group">{{ t('reports') }}</div>
+      <a href="/reports" class="{{ 'active' if nav=='reports' }}">{{ t('reports') }}</a>
+      {% if user and user.role == 'ADMIN' %}
+      <div class="nav-group">{{ t('administration') }}</div>
+      <a href="/admin/users" class="{{ 'active' if nav=='users' }}">{{ t('users') }}</a>
+      <a href="/admin/roles" class="{{ 'active' if nav=='roles' }}">{{ t('roles') }}</a>
+      <a href="/admin/settings" class="{{ 'active' if nav=='settings' }}">{{ t('settings') }}</a>
+      <a href="/admin/periods" class="{{ 'active' if nav=='periods' }}">{{ t('periods') }}</a>
+      <a href="/admin/numbering" class="{{ 'active' if nav=='numbering' }}">{{ t('document_numbering') }}</a>
+      <a href="/admin/audit" class="{{ 'active' if nav=='audit' }}">{{ t('audit_log') }}</a>
+      <a href="/admin/backup" class="{{ 'active' if nav=='backup' }}">{{ t('backup') }}</a>
+      <a href="/admin/employees" class="{{ 'active' if nav=='employees' }}">{{ t('employees') }}</a>
+      {% endif %}
+    </nav>
+  </aside>
+  <main class="main">
+    <div class="topbar no-print">
+      <div>
+        <div class="crumbs">{% block crumbs %}{{ t('dashboard') }}{% endblock %}</div>
+        <h2>{% block heading %}{{ t('dashboard') }}{% endblock %}</h2>
+      </div>
+      <div class="userbox">
+        <span class="lang chip">
+          <a href="/lang/en">EN</a> · <a href="/lang/bn">বাংলা</a>
+        </span>
+        {% if user %}
+        <span class="chip">{{ user.full_name }} · {{ user.role }}</span>
+        <form method="post" action="/logout" style="display:inline">
+          <input type="hidden" name="csrf" value="{{ csrf }}">
+          <button class="btn ghost" type="submit">{{ t('logout') }}</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+    {% for item in flash_messages %}
+      <div class="flash {{ item.category }}">{{ item.message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+</div>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

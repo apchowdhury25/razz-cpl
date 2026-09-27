@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('cash_bank') }}{% endblock %}
+{% block content %}
+<div class="grid grid-3">
+<div class="card kpi"><div class="label">Cash</div><div class="value">{{ data.cash|money }}</div></div>
+<div class="card kpi"><div class="label">Bank</div><div class="value">{{ data.bank|money }}</div></div>
+<div class="card kpi"><div class="label">Total</div><div class="value">{{ data.total|money }}</div></div>
+</div>
+<div class="card section"><table>
+<tr><th>Account</th><th>Type</th><th>Bank / No</th><th class="num">Opening</th><th class="num">Current</th></tr>
+{% for row in data.accounts %}
+<tr><td>{{ row.account.name }}</td><td>{{ row.account.account_type }}</td><td>{{ row.account.bank_name }} {{ row.account.account_number }}</td><td class="num">{{ row.account.opening_balance|money }}</td><td class="num">{{ row.balance|money }}</td></tr>
+{% endfor %}
+</table>
+<p class="muted">Current balance = opening + posted receipts − posted payments ± transfers, from the general ledger — not a hard-coded opening figure.</p>
+</div>
+<p class="actions"><a class="btn ghost" href="/cash/transfers">Transfers</a> <a class="btn ghost" href="/cash/other">Other receipts / payments</a></p>
+{% if can_write %}
+<div class="card"><h3>Add account</h3>
+<form method="post" action="/cash/accounts/new"><input type="hidden" name="csrf" value="{{ csrf }}">
+<div class="grid grid-2">
+<p><label>Name</label><input name="name" required></p>
+<p><label>Type</label><select name="account_type"><option>CASH</option><option>BANK</option></select></p>
+<p><label>Bank</label><input name="bank_name"></p>
+<p><label>Account no</label><input name="account_number"></p>
+<p><label>GL account</label><select name="gl_account_id">{% for a in gls %}<option value="{{ a.id }}">{{ a.code }} {{ a.name }}</option>{% endfor %}</select></p>
+<p><label>Opening</label><input name="opening_balance" value="0"></p>
+<p><label>Opening date</label><input type="date" name="opening_date" required></p>
+</div>
+<button class="btn">Save</button>
+</form></div>
+{% endif %}
+{% endblock %}

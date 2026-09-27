@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('tds_report') }}{% endblock %}
+{% block content %}
+<form class="toolbar">
+<input type="date" name="date_from" value="{{ date_from.isoformat() if date_from else '' }}">
+<input type="date" name="date_to" value="{{ date_to.isoformat() if date_to else '' }}">
+<select name="project_id"><option value="">Project</option>{% for p in projects %}<option value="{{ p.id }}" {% if project_id==p.id %}selected{% endif %}>{{ p.code }}</option>{% endfor %}</select>
+<button class="btn secondary">Filter</button>
+<a class="btn" href="?export=1">Export Excel</a>
+</form>
+<div class="card"><table>
+<tr><th>Date</th><th>Vendor</th><th>Bill</th><th class="num">Gross</th><th>%</th><th class="num">TDS</th><th>Remitted</th><th>Certificate</th></tr>
+{% for r in rows %}
+<tr><td>{{ r.bill_date|dmy }}</td><td>{{ r.vendor.name if r.vendor else '' }}</td><td><a href="/bills/{{ r.id }}">{{ r.bill_no }}</a></td><td class="num">{{ r.gross_amount|money }}</td><td>{{ r.tds_percent }}</td><td class="num">{{ r.tds_amount|money }}</td><td>{{ 'Yes' if r.tds_remitted else 'No' }}</td><td>{{ r.tds_certificate_no }}</td></tr>
+{% endfor %}
+<tr><th colspan="5">Total TDS payable</th><th class="num">{{ total|money }}</th><th colspan="2"></th></tr>
+</table></div>
+{% endblock %}

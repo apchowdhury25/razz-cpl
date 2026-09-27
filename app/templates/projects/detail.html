@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block heading %}{{ item.code }} · {{ item.name }}{% endblock %}
+{% block content %}
+<p class="actions no-print">{% if can_write %}<a class="btn secondary" href="/projects/{{ item.id }}/edit">{{ t('edit') }}</a>{% endif %}
+<a class="btn ghost" href="/reports/project/{{ item.id }}">Project accounting</a></p>
+<div class="grid grid-4">
+  <div class="card kpi"><div class="label">Revenue</div><div class="value">{{ summary.revenue|money }}</div></div>
+  <div class="card kpi"><div class="label">Cost</div><div class="value">{{ summary.cost|money }}</div></div>
+  <div class="card kpi"><div class="label">Gross result</div><div class="value">{{ summary.gross_result|money }}</div></div>
+  <div class="card kpi"><div class="label">Receivable</div><div class="value">{{ summary.receivable|money }}</div></div>
+  <div class="card kpi"><div class="label">Payable</div><div class="value">{{ summary.payable|money }}</div></div>
+  <div class="card kpi"><div class="label">Cash collected</div><div class="value">{{ summary.cash_collected|money }}</div></div>
+  <div class="card kpi"><div class="label">Cash paid</div><div class="value">{{ summary.cash_paid|money }}</div></div>
+  <div class="card kpi"><div class="label">Budget util.</div><div class="value">{{ summary.budget_util }}%</div></div>
+</div>
+<div class="card section">
+  <p>{{ item.mode }} {% if item.client_name %}· Client: {{ item.client_name }}{% endif %}</p>
+  <p class="muted">{{ item.address }}</p>
+  <p>Retention default: {{ item.retention_percent }}% · Budget {{ item.budget|money }} · Contract {{ item.contract_value|money }}</p>
+</div>
+{% if item.mode == 'DEVELOPER' %}
+<div class="card section">
+  <h3>Units</h3>
+  <p>Total {{ summary.units.total }} · Booked {{ summary.units.booked }} · Unsold {{ summary.units.unsold }} · Sales value {{ summary.units.sales_value|money }}</p>
+  <table>
+    <tr><th>Unit</th><th>Floor</th><th>Size</th><th class="num">Price</th><th>Status</th></tr>
+    {% for u in units %}
+    <tr><td>{{ u.unit_number }}</td><td>{{ u.floor }}</td><td>{{ u.size_sft }} sft</td><td class="num">{{ u.sale_price|money }}</td><td>{{ u.status }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% else %}
+<div class="card section">
+  <h3>Contractor</h3>
+  <p>Contract value {{ summary.contract_value|money }} · Billed {{ summary.billed|money }} · Collected {{ summary.cash_collected|money }} · Vendor costs {{ summary.vendor_costs|money }} · Paid {{ summary.cash_paid|money }}</p>
+</div>
+{% endif %}
+{% endblock %}

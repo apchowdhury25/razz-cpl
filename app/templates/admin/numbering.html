@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('document_numbering') }}{% endblock %}
+{% block content %}
+<div class="card"><table>
+<tr><th>Type</th><th>Year</th><th>Prefix</th><th>Next</th><th>Padding</th><th></th></tr>
+{% for i in items %}
+<tr>
+<form method="post" action="/admin/numbering/{{ i.id }}">
+<input type="hidden" name="csrf" value="{{ csrf }}">
+<td>{{ i.doc_type }}</td><td>{{ i.year }}</td>
+<td><input name="prefix" value="{{ i.prefix }}"></td>
+<td><input name="next_number" value="{{ i.next_number }}"></td>
+<td><input name="padding" value="{{ i.padding }}"></td>
+<td><button class="btn secondary">Save</button></td>
+</form>
+</tr>
+{% endfor %}
+</table></div>
+{% endblock %}

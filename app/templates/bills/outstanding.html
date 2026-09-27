@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block heading %}Outstanding payables{% endblock %}
+{% block content %}
+<div class="card"><table>
+<tr><th>Vendor</th><th>Bill</th><th>Due</th><th>Days</th><th class="num">Outstanding</th></tr>
+{% for r in rows %}
+<tr><td>{{ r.vendor }}</td><td>{{ r.bill_no }}</td><td>{{ r.due_date|dmy }}</td><td>{{ r.days }}</td><td class="num">{{ r.outstanding|money }}</td></tr>
+{% endfor %}
+<tr><th colspan="4">Total</th><th class="num">{{ totals.total|money }}</th></tr>
+</table></div>
+{% endblock %}

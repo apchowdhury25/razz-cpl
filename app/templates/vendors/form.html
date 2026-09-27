@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block heading %}{{ 'Edit vendor' if item else 'New vendor' }}{% endblock %}
+{% block content %}
+<div class="card"><form method="post"><input type="hidden" name="csrf" value="{{ csrf }}">
+<div class="grid grid-2">
+<p><label>Name</label><input name="name" value="{{ item.name if item else '' }}" required></p>
+<p><label>বাংলা</label><input name="name_bn" value="{{ item.name_bn if item else '' }}"></p>
+<p><label>Type</label>
+<select name="vendor_type">{% for s in ['CONTRACTOR','MATERIAL_SUPPLIER','SERVICE_PROVIDER','CONSULTANT','OTHER'] %}<option {% if item and item.vendor_type==s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select></p>
+<p><label>TIN</label><input name="tin" value="{{ item.tin if item else '' }}"></p>
+<p><label>BIN</label><input name="bin_number" value="{{ item.bin_number if item else '' }}"></p>
+<p><label>Phone</label><input name="phone" value="{{ item.phone if item else '' }}"></p>
+<p><label>Email</label><input name="email" value="{{ item.email if item else '' }}"></p>
+<p><label>Default TDS %</label><input name="default_tds_percent" value="{{ item.default_tds_percent if item else '0' }}"></p>
+<p><label>TDS category</label>
+<select name="default_tds_category_id"><option value=""></option>{% for c in tds_categories %}<option value="{{ c.id }}" {% if item and item.default_tds_category_id==c.id %}selected{% endif %}>{{ c.name }} ({{ c.percent }}%)</option>{% endfor %}</select></p>
+</div>
+<p><label>Address</label><textarea name="address">{{ item.address if item else '' }}</textarea></p>
+<p><label>Notes</label><textarea name="notes">{{ item.notes if item else '' }}</textarea></p>
+{% if item %}<p><label><input type="checkbox" name="is_active" value="1" {% if item.is_active %}checked{% endif %}> Active</label></p>{% endif %}
+<button class="btn">{{ t('save') }}</button>
+</form></div>
+{% endblock %}

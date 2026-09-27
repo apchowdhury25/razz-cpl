@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block heading %}{{ 'Customer statement' if statement else t('customer_ledger') }}{% endblock %}
+{% block content %}
+<form class="toolbar">
+  <p><label>Customer</label><select name="customer_id">{% for c in customers %}<option value="{{ c.id }}" {% if customer_id==c.id %}selected{% endif %}>{{ c.name }}</option>{% endfor %}</select></p>
+  <p><label>From</label><input type="date" name="date_from" value="{{ date_from.isoformat() if date_from else '' }}"></p>
+  <p><label>To</label><input type="date" name="date_to" value="{{ date_to.isoformat() if date_to else '' }}"></p>
+  <button class="btn secondary">Open</button>
+  {% if customer %}<a class="btn" href="?customer_id={{ customer.id }}&export=1">Export Excel</a>
+  <button class="btn ghost" type="button" onclick="window.print()">Print</button>{% endif %}
+</form>
+{% if customer %}
+<div class="card">
+  <h3>{{ customer.name }}</h3>
+  <p class="muted">{{ customer.address }} · {{ customer.phone }}</p>
+  <table>
+    <tr><th>Date</th><th>Document</th><th>Description</th><th class="num">Debit / Charge</th><th class="num">Credit / Receipt</th><th class="num">Balance</th></tr>
+    {% for e in entries %}
+    <tr><td>{{ e.date|dmy }}</td><td>{{ e.document }}</td><td>{{ e.description }}</td><td class="num">{{ e.debit|money }}</td><td class="num">{{ e.credit|money }}</td><td class="num">{{ e.balance|money }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endif %}
+{% endblock %}

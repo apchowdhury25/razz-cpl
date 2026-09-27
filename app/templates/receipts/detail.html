@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block heading %}{{ item.receipt_no }}{% endblock %}
+{% block content %}
+<div class="card">
+<p>{{ item.customer.name }} · {{ item.receipt_date|dmy }} · {{ item.payment_method }} · <span class="status {{ item.status }}">{{ item.status }}</span></p>
+<p>Amount {{ item.amount|money }} · Allocated {{ item.allocated_amount|money }} · Unallocated {{ item.unallocated_amount|money }}</p>
+<p>Account: {{ item.money_account.name if item.money_account else '' }} · Ref {{ item.reference_no }}</p>
+<div class="actions no-print">
+<a class="btn ghost" href="/receipts/{{ item.id }}/voucher">Print voucher</a>
+{% if can_write and item.status=='DRAFT' %}
+<form method="post" action="/receipts/{{ item.id }}/post"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="btn">Post</button></form>
+{% endif %}
+{% if can_write %}
+<form method="post" action="/receipts/{{ item.id }}/cancel" onsubmit="return confirmAction('Cancel this receipt?')"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="btn danger">Cancel</button></form>
+{% endif %}
+</div>
+</div>
+{% if can_write and item.status=='DRAFT' %}
+<div class="card section"><h3>Allocations</h3>
+<form method="post" action="/receipts/{{ item.id }}/allocate"><input type="hidden" name="csrf" value="{{ csrf }}">
+<table><tr><th>Invoice</th><th class="num">Outstanding</th><th>Allocate</th></tr>
+{% for i in open_invoices %}
+<tr><td>{{ i.invoice_no }}</td><td class="num">{{ i.outstanding_amount|money }}</td><td><input name="alloc_{{ i.id }}"></td></tr>
+{% endfor %}
+</table>
+<p><label><input type="checkbox" name="is_advance" value="1"> Advance remainder</label></p>
+<button class="btn secondary">Save allocations</button>
+</form></div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block heading %}New booking{% endblock %}
+{% block content %}
+<div class="card"><form method="post"><input type="hidden" name="csrf" value="{{ csrf }}">
+<div class="grid grid-2">
+<p><label>Date</label><input type="date" name="booking_date" required></p>
+<p><label>Customer</label><select name="customer_id" required>{% for c in customers %}<option value="{{ c.id }}">{{ c.name }}</option>{% endfor %}</select></p>
+<p><label>Unit</label><select name="unit_id" required>{% for u in units %}<option value="{{ u.id }}">{{ u.project.code if u.project else '' }} {{ u.unit_number }} — {{ u.sale_price|money }}</option>{% endfor %}</select></p>
+<p><label>Agreed price</label><input name="agreed_price" required></p>
+</div>
+<p><label>Notes</label><textarea name="notes"></textarea></p>
+<p class="muted">Saving a booking posts installment demands (10% / 15% / 50% / 25%) as receivables.</p>
+<button class="btn">{{ t('save') }}</button>
+</form></div>
+{% endblock %}

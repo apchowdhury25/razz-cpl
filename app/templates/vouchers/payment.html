@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block heading %}Payment voucher {{ item.payment_no }}{% endblock %}
+{% block content %}
+<div class="voucher">
+  <h2 style="text-align:center">{{ settings.name if settings else 'Razz CNPL' }}</h2>
+  <h3 style="text-align:center">VENDOR PAYMENT VOUCHER</h3>
+  <p>Payment: <strong>{{ item.payment_no }}</strong> &nbsp; Date: {{ item.payment_date|dmy }}</p>
+  <p>Vendor: {{ item.vendor.name }}</p>
+  <p>Account: {{ item.money_account.name if item.money_account else '' }}</p>
+  <p>Amount: <strong>{{ item.amount|money }}</strong></p>
+  <p>In words: {{ item.amount|words }}</p>
+  <p>Method: {{ item.payment_method }} &nbsp; Reference: {{ item.reference_no }}</p>
+  <p>Allocations:</p>
+  <ul>{% for a in item.allocations %}<li>Bill #{{ a.bill_id }} — {{ a.amount|money }}</li>{% else %}<li>Unallocated / advance</li>{% endfor %}</ul>
+  <br>
+  <p>Prepared by _______ &nbsp; Approved by _______</p>
+  <p class="no-print"><button class="btn" onclick="window.print()">Print</button></p>
+</div>
+{% endblock %}

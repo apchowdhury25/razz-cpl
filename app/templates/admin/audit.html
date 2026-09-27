@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('audit_log') }}{% endblock %}
+{% block content %}
+<form class="toolbar"><input name="q" value="{{ q }}" placeholder="Search"><button class="btn secondary">Search</button></form>
+<div class="card"><table>
+<tr><th>Time</th><th>User</th><th>Action</th><th>Module</th><th>Document</th><th>Description</th></tr>
+{% for a in page.rows %}
+<tr><td>{{ a.timestamp|dmy }}</td><td>{{ a.username }}</td><td>{{ a.action }}</td><td>{{ a.module }}</td><td>{{ a.document_no }}</td><td>{{ a.description }}</td></tr>
+{% endfor %}
+</table>{% include "partials/pager.html" %}</div>
+<p class="muted">Audit logs cannot be deleted by normal users.</p>
+{% endblock %}

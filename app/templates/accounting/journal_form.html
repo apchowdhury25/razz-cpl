@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block heading %}Manual journal{% endblock %}
+{% block content %}
+<div class="card"><form method="post"><input type="hidden" name="csrf" value="{{ csrf }}">
+<div class="grid grid-2">
+<p><label>Date</label><input type="date" name="entry_date" required></p>
+<p><label>Project</label><select name="project_id"><option value=""></option>{% for p in projects %}<option value="{{ p.id }}">{{ p.code }}</option>{% endfor %}</select></p>
+</div>
+<p><label>Description</label><input name="description" required></p>
+<table>
+<tr><th>Account</th><th>Project</th><th class="num">Debit</th><th class="num">Credit</th><th>Narration</th></tr>
+{% for i in range(8) %}
+<tr>
+<td><select name="account_id_{{ i }}"><option value=""></option>{% for a in accounts %}<option value="{{ a.id }}">{{ a.code }} {{ a.name }}</option>{% endfor %}</select></td>
+<td><select name="project_id_{{ i }}"><option value=""></option>{% for p in projects %}<option value="{{ p.id }}">{{ p.code }}</option>{% endfor %}</select></td>
+<td><input name="debit_{{ i }}"></td>
+<td><input name="credit_{{ i }}"></td>
+<td><input name="desc_{{ i }}"></td>
+</tr>
+{% endfor %}
+</table>
+<p><label><input type="checkbox" name="post_now" value="1" checked> Post immediately</label></p>
+<button class="btn">{{ t('save') }}</button>
+</form></div>
+{% endblock %}

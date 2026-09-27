@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('trial_balance') }}{% endblock %}
+{% block content %}
+<form class="toolbar">
+<p><label>From</label><input type="date" name="date_from" value="{{ date_from.isoformat() if date_from else '' }}"></p>
+<p><label>To</label><input type="date" name="date_to" value="{{ date_to.isoformat() if date_to else '' }}"></p>
+<p><label>Project</label><select name="project_id"><option value=""></option>{% for p in projects %}<option value="{{ p.id }}" {% if project_id==p.id %}selected{% endif %}>{{ p.code }}</option>{% endfor %}</select></p>
+<button class="btn secondary">Filter</button>
+<a class="btn" href="?export=1">Export Excel</a>
+<button class="btn ghost" type="button" onclick="window.print()">Print</button>
+</form>
+<div class="card">
+<p class="{% if balanced %}kpi good{% else %}kpi bad{% endif %}">{% if balanced %}Balanced{% else %}OUT OF BALANCE{% endif %}</p>
+<table>
+<tr><th>Code</th><th>Account</th><th>Type</th><th class="num">Debit</th><th class="num">Credit</th></tr>
+{% for r in rows %}
+<tr><td>{{ r.code }}</td><td>{{ r.name }}</td><td>{{ r.account_type }}</td><td class="num">{{ r.debit|money }}</td><td class="num">{{ r.credit|money }}</td></tr>
+{% endfor %}
+<tr><th colspan="3">Total</th><th class="num">{{ total_dr|money }}</th><th class="num">{{ total_cr|money }}</th></tr>
+</table>
+</div>
+{% endblock %}

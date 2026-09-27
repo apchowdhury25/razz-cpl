@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block heading %}Money Receipt {{ item.receipt_no }}{% endblock %}
+{% block content %}
+<div class="voucher">
+  <div class="print-only"></div>
+  <h2 style="text-align:center">{{ settings.name if settings else 'Razz CNPL' }}</h2>
+  <p style="text-align:center" class="muted">{{ settings.address if settings else 'Dhaka, Bangladesh' }}</p>
+  <h3 style="text-align:center">MONEY RECEIPT / মানি রিসিপ্ট</h3>
+  <p>Receipt no: <strong>{{ item.receipt_no }}</strong> &nbsp; Date: <strong>{{ item.receipt_date|dmy }}</strong></p>
+  <p>Received from: <strong>{{ item.customer.name }}</strong></p>
+  <p>Project: {{ item.project.name if item.project else '' }} &nbsp; Unit: {{ item.unit.unit_number if item.unit else '' }}</p>
+  <p>Amount: <strong>{{ item.amount|money }}</strong></p>
+  <p>In words: {{ item.amount|words }}</p>
+  <p>কথায়: {{ item.amount|words_bn }}</p>
+  <p>Method: {{ item.payment_method }} &nbsp; Reference: {{ item.reference_no }}</p>
+  <p>Received by: {{ item.received_by }}</p>
+  <br><br>
+  <p>_________________________ &nbsp;&nbsp;&nbsp; _________________________</p>
+  <p>Received by &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Authorized signature</p>
+  <p class="no-print"><button class="btn" onclick="window.print()">Print</button></p>
+</div>
+{% endblock %}

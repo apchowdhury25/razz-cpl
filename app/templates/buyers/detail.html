@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block heading %}{{ item.name }}{% endblock %}
+{% block content %}
+<p class="muted">{{ item.code }} · {{ item.phone }} · {{ item.nid }}</p>
+<p>{{ item.address }}</p>
+{% if can_write %}<p><a class="btn secondary" href="/customers/{{ item.id }}/edit">Edit</a> <a class="btn ghost" href="/ar/ledger?customer_id={{ item.id }}&statement=1">Statement</a></p>{% endif %}
+<div class="card"><h3>Ledger</h3>
+<table><tr><th>Date</th><th>Document</th><th>Description</th><th class="num">Debit</th><th class="num">Credit</th><th class="num">Balance</th></tr>
+{% for e in ledger %}
+<tr><td>{{ e.date|dmy }}</td><td>{{ e.document }}</td><td>{{ e.description }}</td><td class="num">{{ e.debit|money }}</td><td class="num">{{ e.credit|money }}</td><td class="num">{{ e.balance|money }}</td></tr>
+{% endfor %}
+</table></div>
+{% endblock %}

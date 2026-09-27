@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block heading %}Monthly transactions{% endblock %}
+{% block content %}
+<form class="toolbar">
+<input name="year" value="{{ year }}" style="width:90px">
+<input name="month" value="{{ month }}" style="width:70px">
+<select name="project_id"><option value="">Project</option>{% for p in projects %}<option value="{{ p.id }}" {% if project_id==p.id %}selected{% endif %}>{{ p.code }}</option>{% endfor %}</select>
+<button class="btn secondary">Open</button>
+</form>
+<p class="muted">{{ data.start|dmy }} – {{ data.end|dmy }}</p>
+<div class="card"><h3>Receipts</h3><table>{% for r in data.receipts %}<tr><td>{{ r.receipt_date|dmy }}</td><td>{{ r.receipt_no }}</td><td>{{ r.customer.name }}</td><td class="num">{{ r.amount|money }}</td></tr>{% endfor %}</table></div>
+<div class="card section"><h3>Bills</h3><table>{% for b in data.bills %}<tr><td>{{ b.bill_date|dmy }}</td><td>{{ b.bill_no }}</td><td>{{ b.vendor.name }}</td><td class="num">{{ b.net_payable|money }}</td></tr>{% endfor %}</table></div>
+<div class="card section"><h3>Payments</h3><table>{% for p in data.payments %}<tr><td>{{ p.payment_date|dmy }}</td><td>{{ p.payment_no }}</td><td>{{ p.vendor.name }}</td><td class="num">{{ p.amount|money }}</td></tr>{% endfor %}</table></div>
+{% endblock %}

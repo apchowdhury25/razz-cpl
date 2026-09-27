@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('bookings') }}{% endblock %}
+{% block content %}
+<div class="toolbar">
+<form class="toolbar"><input name="q" value="{{ q }}"><select name="project_id"><option value="">All</option>{% for p in projects %}<option value="{{ p.id }}" {% if project_id==p.id %}selected{% endif %}>{{ p.code }}</option>{% endfor %}</select><button class="btn secondary">Filter</button></form>
+{% if can_write %}<a class="btn" href="/bookings/new">{{ t('add') }}</a>{% endif %}
+</div>
+<div class="card"><table>
+<tr><th>No</th><th>Date</th><th>Customer</th><th>Project</th><th>Unit</th><th class="num">Agreed</th><th>Status</th></tr>
+{% for b in page.rows %}
+<tr><td><a href="/bookings/{{ b.id }}">{{ b.booking_no }}</a></td><td>{{ b.booking_date|dmy }}</td><td>{{ b.customer.name if b.customer else '' }}</td><td>{{ b.project.code if b.project else '' }}</td><td>{{ b.unit.unit_number if b.unit else '' }}</td><td class="num">{{ b.agreed_price|money }}</td><td>{{ b.status }}</td></tr>
+{% endfor %}
+</table>{% include "partials/pager.html" %}</div>
+{% endblock %}

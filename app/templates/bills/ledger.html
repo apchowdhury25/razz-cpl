@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block heading %}{{ 'Vendor statement' if statement else t('vendor_ledger') }}{% endblock %}
+{% block content %}
+<form class="toolbar">
+<p><label>Vendor</label><select name="vendor_id">{% for v in vendors %}<option value="{{ v.id }}" {% if vendor_id==v.id %}selected{% endif %}>{{ v.name }}</option>{% endfor %}</select></p>
+<p><label>From</label><input type="date" name="date_from" value="{{ date_from.isoformat() if date_from else '' }}"></p>
+<p><label>To</label><input type="date" name="date_to" value="{{ date_to.isoformat() if date_to else '' }}"></p>
+<button class="btn secondary">Open</button>
+{% if vendor %}<a class="btn" href="?vendor_id={{ vendor.id }}&export=1">Export Excel</a>
+<button class="btn ghost" type="button" onclick="window.print()">Print</button>{% endif %}
+</form>
+{% if vendor %}
+<div class="card">
+<h3>{{ vendor.name }}</h3>
+<table>
+<tr><th>Date</th><th>Document</th><th>Description</th><th class="num">Debit / Payment</th><th class="num">Credit / Bill</th><th class="num">Balance</th></tr>
+{% for e in entries %}
+<tr><td>{{ e.date|dmy }}</td><td>{{ e.document }}</td><td>{{ e.description }}</td><td class="num">{{ e.debit|money }}</td><td class="num">{{ e.credit|money }}</td><td class="num">{{ e.balance|money }}</td></tr>
+{% endfor %}
+</table>
+</div>
+{% endif %}
+{% endblock %}

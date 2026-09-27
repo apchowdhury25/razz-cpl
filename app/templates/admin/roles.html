@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('roles') }}{% endblock %}
+{% block content %}
+<div class="card">
+<table>
+<tr><th>Role</th><th>Permissions</th></tr>
+<tr><td>ADMIN</td><td>Full access, configuration, users, reverse/cancel posted documents, backups.</td></tr>
+<tr><td>MANAGER</td><td>Review/approve, post permitted transactions, all reports. No system configuration.</td></tr>
+<tr><td>ACCOUNTS_OFFICER</td><td>Create/edit drafts, receipts, bills, payments, view reports. Cannot change configuration or reverse posted documents.</td></tr>
+<tr><td>AUDITOR</td><td>Read-only: reports, audit log, ledgers. No transaction editing.</td></tr>
+</table>
+</div>
+{% endblock %}

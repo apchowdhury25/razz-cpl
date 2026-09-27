@@ -1,0 +1,7 @@
+{% if page and page.pages > 1 %}
+<div class="pager">
+  {% if page.page > 1 %}<a class="btn ghost" href="?page={{ page.page-1 }}">Prev</a>{% endif %}
+  <span class="muted">Page {{ page.page }} / {{ page.pages }} · {{ page.total }} records</span>
+  {% if page.page < page.pages %}<a class="btn ghost" href="?page={{ page.page+1 }}">Next</a>{% endif %}
+</div>
+{% endif %}

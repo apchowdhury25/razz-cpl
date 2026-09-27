@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('projects') }}{% endblock %}
+{% block crumbs %}{{ t('projects') }}{% endblock %}
+{% block content %}
+<div class="toolbar">
+  <form><input name="q" value="{{ q }}" placeholder="{{ t('search') }}"></form>
+  {% if can_write %}<a class="btn" href="/projects/new">{{ t('add') }}</a>{% endif %}
+</div>
+<div class="card">
+<table>
+<tr><th>Code</th><th>Name</th><th>Mode</th><th>Client</th><th class="num">Budget</th><th>Status</th></tr>
+{% for p in page.rows %}
+<tr>
+  <td><a href="/projects/{{ p.id }}">{{ p.code }}</a></td>
+  <td>{{ p.name }}{% if p.name_bn %}<br><span class="muted">{{ p.name_bn }}</span>{% endif %}</td>
+  <td>{{ p.mode }}</td>
+  <td>{{ p.client_name }}</td>
+  <td class="num">{{ p.budget|money }}</td>
+  <td><span class="status">{{ p.status }}</span></td>
+</tr>
+{% endfor %}
+</table>
+{% include "partials/pager.html" %}
+</div>
+{% endblock %}

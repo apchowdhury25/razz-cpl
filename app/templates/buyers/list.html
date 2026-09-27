@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('customers') }}{% endblock %}
+{% block content %}
+<div class="toolbar"><form><input name="q" value="{{ q }}" placeholder="{{ t('search') }}"></form>{% if can_write %}<a class="btn" href="/customers/new">{{ t('add') }}</a>{% endif %}</div>
+<div class="card"><table>
+<tr><th>Code</th><th>Name</th><th>Phone</th><th>NID</th><th></th></tr>
+{% for c in page.rows %}
+<tr><td>{{ c.code }}</td><td><a href="/customers/{{ c.id }}">{{ c.name }}</a>{% if c.name_bn %}<br><span class="muted">{{ c.name_bn }}</span>{% endif %}</td><td>{{ c.phone }}</td><td>{{ c.nid }}</td><td>{% if can_write %}<a href="/customers/{{ c.id }}/edit">Edit</a>{% endif %}</td></tr>
+{% endfor %}
+</table>{% include "partials/pager.html" %}</div>
+{% endblock %}

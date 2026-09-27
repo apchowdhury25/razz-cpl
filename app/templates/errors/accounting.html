@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block heading %}Accounting rule{% endblock %}
+{% block content %}
+<div class="card">
+  <p>{{ message }}</p>
+  <p class="muted">Posted journals must balance. Locked periods cannot be posted by normal users. Allocations cannot exceed outstanding balances.</p>
+  <p><a href="javascript:history.back()">Go back</a></p>
+</div>
+{% endblock %}

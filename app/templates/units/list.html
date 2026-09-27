@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('units') }}{% endblock %}
+{% block content %}
+<div class="toolbar">
+  <form class="toolbar">
+    <input name="q" value="{{ q }}" placeholder="Unit no">
+    <select name="project_id"><option value="">All projects</option>{% for p in projects %}<option value="{{ p.id }}" {% if project_id==p.id %}selected{% endif %}>{{ p.code }}</option>{% endfor %}</select>
+    <select name="status"><option value="">All status</option>{% for s in ['UNSOLD','RESERVED','BOOKED','SOLD','CANCELLED'] %}<option {% if status==s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select>
+    <button class="btn secondary">Filter</button>
+  </form>
+  {% if can_write %}<a class="btn" href="/units/new">{{ t('add') }}</a>{% endif %}
+</div>
+<div class="card">
+<table>
+<tr><th>Project</th><th>Unit</th><th>Floor</th><th>Size</th><th class="num">Base</th><th class="num">Sale</th><th>Buyer</th><th>Status</th><th></th></tr>
+{% for u in page.rows %}
+<tr>
+  <td>{{ u.project.code if u.project else '' }}</td>
+  <td>{{ u.unit_number }}</td>
+  <td>{{ u.floor }}</td>
+  <td>{{ u.size_sft }} sft</td>
+  <td class="num">{{ u.base_price|money }}</td>
+  <td class="num">{{ u.sale_price|money }}</td>
+  <td>{{ u.buyer.name if u.buyer else '' }}</td>
+  <td><span class="status">{{ u.status }}</span></td>
+  <td>{% if can_write %}<a href="/units/{{ u.id }}/edit">Edit</a>{% endif %}</td>
+</tr>
+{% endfor %}
+</table>
+{% include "partials/pager.html" %}
+</div>
+{% endblock %}

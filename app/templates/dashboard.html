@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block heading %}{{ t('dashboard') }}{% endblock %}
+{% block crumbs %}{{ settings.fy_code if settings else '' }} · as of {{ as_of|dmy }}{% endblock %}
+{% block content %}
+<div class="grid grid-4">
+  <div class="card kpi"><div class="label">{{ t('total_receivable') }}</div><div class="value">{{ ar.outstanding|money }}</div><div class="muted">Demanded {{ ar.demanded|money }} · Collected {{ ar.receipts|money }}</div></div>
+  <div class="card kpi warn"><div class="label">{{ t('overdue') }} AR</div><div class="value">{{ ar_age.overdue|money }}</div></div>
+  <div class="card kpi"><div class="label">{{ t('total_payable') }}</div><div class="value">{{ ap.outstanding|money }}</div><div class="muted">Net billed {{ ap.net_payable|money }} · Paid {{ ap.paid|money }}</div></div>
+  <div class="card kpi warn"><div class="label">{{ t('overdue') }} AP</div><div class="value">{{ ap_age.overdue|money }}</div></div>
+  <div class="card kpi good"><div class="label">{{ t('cash') }}</div><div class="value">{{ cash.cash|money }}</div></div>
+  <div class="card kpi good"><div class="label">{{ t('bank') }}</div><div class="value">{{ cash.bank|money }}</div></div>
+  <div class="card kpi"><div class="label">Cash + Bank</div><div class="value">{{ cash.total|money }}</div></div>
+  <div class="card kpi"><div class="label">{{ t('tds_payable') }}</div><div class="value">{{ tds_payable|money }}</div></div>
+  <div class="card kpi"><div class="label">{{ t('input_vat') }}</div><div class="value">{{ input_vat|money }}</div></div>
+  <div class="card kpi"><div class="label">{{ t('output_vat') }}</div><div class="value">{{ output_vat|money }}</div></div>
+  <div class="card kpi"><div class="label">{{ t('retention_payable') }}</div><div class="value">{{ ap.retention|money }}</div></div>
+  <div class="card kpi"><div class="label">AR current</div><div class="value">{{ ar_age.current|money }}</div></div>
+</div>
+
+<div class="section card">
+  <h3>AR aging</h3>
+  <table>
+    <tr><th>Current</th><th class="num">1–30</th><th class="num">31–60</th><th class="num">61–90</th><th class="num">91–180</th><th class="num">181–365</th><th class="num">&gt;365</th></tr>
+    <tr>
+      <td class="num">{{ ar_age.current|money }}</td>
+      <td class="num">{{ ar_age.d1_30|money }}</td>
+      <td class="num">{{ ar_age.d31_60|money }}</td>
+      <td class="num">{{ ar_age.d61_90|money }}</td>
+      <td class="num">{{ ar_age.d91_180|money }}</td>
+      <td class="num">{{ ar_age.d181_365|money }}</td>
+      <td class="num">{{ ar_age.d365p|money }}</td>
+    </tr>
+  </table>
+</div>
+
+<div class="section card">
+  <h3>AP aging</h3>
+  <table>
+    <tr><th>Current</th><th class="num">1–30</th><th class="num">31–60</th><th class="num">61–90</th><th class="num">91–180</th><th class="num">181–365</th><th class="num">&gt;365</th></tr>
+    <tr>
+      <td class="num">{{ ap_age.current|money }}</td>
+      <td class="num">{{ ap_age.d1_30|money }}</td>
+      <td class="num">{{ ap_age.d31_60|money }}</td>
+      <td class="num">{{ ap_age.d61_90|money }}</td>
+      <td class="num">{{ ap_age.d91_180|money }}</td>
+      <td class="num">{{ ap_age.d181_365|money }}</td>
+      <td class="num">{{ ap_age.d365p|money }}</td>
+    </tr>
+  </table>
+</div>
+
+<div class="section card">
+  <h3>Projects</h3>
+  <table>
+    <tr><th>Code</th><th>Project</th><th>Mode</th><th class="num">Revenue</th><th class="num">Cost</th><th class="num">Gross result</th><th class="num">Receivable</th><th class="num">Payable</th></tr>
+    {% for s in projects %}
+    <tr>
+      <td><a href="/projects/{{ s.project.id }}">{{ s.project.code }}</a></td>
+      <td>{{ s.project.name }}{% if lang=='bn' and s.project.name_bn %}<br><span class="muted">{{ s.project.name_bn }}</span>{% endif %}</td>
+      <td>{{ s.project.mode }}</td>
+      <td class="num">{{ s.revenue|money }}</td>
+      <td class="num">{{ s.cost|money }}</td>
+      <td class="num">{{ s.gross_result|money }}</td>
+      <td class="num">{{ s.receivable|money }}</td>
+      <td class="num">{{ s.payable|money }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="grid grid-2 section">
+  <div class="card">
+    <h3>Recent receipts</h3>
+    <table>
+      {% for r in recent_receipts %}
+      <tr><td><a href="/receipts/{{ r.id }}">{{ r.receipt_no }}</a></td><td>{{ r.customer.name if r.customer else '' }}</td><td class="num">{{ r.amount|money }}</td></tr>
+      {% else %}<tr><td class="muted">None</td></tr>{% endfor %}
+    </table>
+  </div>
+  <div class="card">
+    <h3>Recent bills</h3>
+    <table>
+      {% for b in recent_bills %}
+      <tr><td><a href="/bills/{{ b.id }}">{{ b.bill_no }}</a></td><td>{{ b.vendor.name if b.vendor else '' }}</td><td class="num">{{ b.net_payable|money }}</td></tr>
+      {% else %}<tr><td class="muted">None</td></tr>{% endfor %}
+    </table>
+  </div>
+  <div class="card">
+    <h3>Recent payments</h3>
+    <table>
+      {% for p in recent_payments %}
+      <tr><td><a href="/payments/{{ p.id }}">{{ p.payment_no }}</a></td><td>{{ p.vendor.name if p.vendor else '' }}</td><td class="num">{{ p.amount|money }}</td></tr>
+      {% else %}<tr><td class="muted">None</td></tr>{% endfor %}
+    </table>
+  </div>
+  <div class="card">
+    <h3>Recent journals</h3>
+    <table>
+      {% for j in recent_journals %}
+      <tr><td><a href="/accounting/journals/{{ j.id }}">{{ j.entry_no }}</a></td><td>{{ j.description }}</td><td class="num">{{ j.total_debit|money }}</td></tr>
+      {% else %}<tr><td class="muted">None</td></tr>{% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}
