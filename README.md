@@ -10,6 +10,15 @@ This is a server-rendered web app. Open it in a browser on the office PC or on t
 
 English is the default language. Use **EN · বাংলা** in the top bar to switch labels.
 
+### Documentation and release rule
+
+Any product change must update **all four** docs (English and Bengali kept in separate files), then be QA-tested and pushed to git:
+
+| Language | Overview | Handbook |
+|----------|----------|----------|
+| English | [README.md](README.md) | [USER-GUIDE.md](USER-GUIDE.md) |
+| বাংলা | [README.bn.md](README.bn.md) | [USER-GUIDE.bn.md](USER-GUIDE.bn.md) |
+
 ---
 
 ## 1. Open the application

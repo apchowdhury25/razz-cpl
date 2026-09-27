@@ -9,6 +9,8 @@ Open the app at [http://127.0.0.1:8000](http://127.0.0.1:8000).
 **Money** is shown as Bangladeshi Taka: `৳ 1,00,000.00`  
 **Dates** are shown and typed as **DD/MM/YYYY**. Example: `09/03/2026` means **9 March 2026**, not 3 September.
 
+When the software changes, update this guide **and** [USER-GUIDE.bn.md](USER-GUIDE.bn.md), plus [README.md](README.md) and [README.bn.md](README.bn.md). Then run QA and push to git. Do not mix languages in one file.
+
 ---
 
 ## 1. Sign in
