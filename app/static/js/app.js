@@ -75,15 +75,26 @@ function enhanceDateInputs() {
     text.maxLength = 10;
     text.autocomplete = "off";
     text.inputMode = "numeric";
+    text.spellcheck = false;
+    text.title = "Enter date as DD/MM/YYYY";
+    text.setAttribute("aria-label", native.getAttribute("aria-label") || native.name || "Date");
     text.value = formatDate(native.value);
     native.removeAttribute("name");
     native.removeAttribute("id");
     native.removeAttribute("required");
     native.classList.add("date-native");
-    native.setAttribute("aria-label", "Open calendar");
-    native.title = "Open calendar";
+    native.setAttribute("tabindex", "-1");
+    native.setAttribute("aria-label", "Choose date from calendar");
+    native.title = "Choose date from calendar";
+    const cal = document.createElement("span");
+    cal.className = "date-cal";
+    const icon = document.createElement("span");
+    icon.className = "date-cal-icon";
+    icon.setAttribute("aria-hidden", "true");
+    icon.textContent = "📅";
     native.addEventListener("change", () => {
       text.value = formatDate(native.value);
+      text.setCustomValidity("");
     });
     text.addEventListener("change", () => {
       const parsed = parseDateDmy(text.value);
@@ -101,7 +112,9 @@ function enhanceDateInputs() {
     text.addEventListener("input", () => text.setCustomValidity(""));
     native.parentNode.insertBefore(wrap, native);
     wrap.appendChild(text);
-    wrap.appendChild(native);
+    cal.appendChild(native);
+    cal.appendChild(icon);
+    wrap.appendChild(cal);
   });
 }
 

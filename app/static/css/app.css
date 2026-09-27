@@ -101,14 +101,32 @@ form:not(.toolbar) p input, form:not(.toolbar) p select, form:not(.toolbar) p te
   width: 100%;
 }
 .toolbar input, .toolbar select {
-  width: 170px; max-width: 100%;
+  width: 168px; max-width: 100%;
 }
-.date-wrap { display: inline-flex; align-items: center; gap: 4px; }
-.date-wrap .date-input { width: 118px; }
-.date-wrap .date-native { width: 2.4em; padding: 6px 2px; cursor: pointer; }
-.toolbar .date-wrap .date-input { width: 118px; }
-.toolbar input[name="q"] { width: 200px; }
+.date-wrap {
+  display: inline-flex; align-items: stretch; background: #fff;
+  border: 1px solid var(--line); border-radius: 8px; overflow: hidden; min-width: 176px;
+}
+.date-wrap .date-input {
+  width: 140px; border: 0; border-radius: 0; padding: 8px 10px; letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.date-wrap .date-input:focus { outline: none; }
+.date-wrap:focus-within { border-color: var(--teal); box-shadow: 0 0 0 2px rgba(15, 61, 62, 0.12); }
+.date-cal {
+  position: relative; width: 36px; display: grid; place-items: center;
+  background: #f4efe6; border-left: 1px solid var(--line); cursor: pointer;
+}
+.date-cal-icon { font-size: 15px; line-height: 1; pointer-events: none; }
+.date-native {
+  position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%;
+  margin: 0; padding: 0; border: 0; cursor: pointer;
+}
+.toolbar .date-wrap { min-width: 176px; }
+.toolbar input[name="q"] { width: 180px; }
 .toolbar .btn, .toolbar a.btn { width: auto; white-space: nowrap; }
+.chip { max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card form { max-width: 920px; }
 .card table { min-width: 640px; }
 textarea { min-height: 80px; }
 .btn {

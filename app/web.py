@@ -15,7 +15,7 @@ from app.money import amount_in_words_bn, amount_in_words_en, format_money
 
 TEMPLATES_DIR = Path(__file__).parent / "templates"
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
-ASSET_V = "20260927f"
+ASSET_V = "20260927h"
 templates.env.filters["money"] = format_money
 templates.env.filters["bdt"] = format_money
 templates.env.filters["dmy"] = dmy

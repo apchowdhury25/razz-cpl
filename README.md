@@ -1,5 +1,7 @@
 # Razz CNPL Accounts — User Guide
 
+For a full step-by-step handbook (including database location and troubleshooting), see **[USER-GUIDE.md](USER-GUIDE.md)**.
+
 Internal accounting system for **Razz CNPL**, Dhaka. Use it for day-to-day accounts receivable (money customers owe), accounts payable (money owed to vendors), project tracking, cash/bank, VAT/TDS, and management reports.
 
 This is a server-rendered web app. Open it in a browser on the office PC or on the company VPS. There is no mobile app and no cloud login.
