@@ -2,7 +2,7 @@
 {% block heading %}Payment voucher {{ item.payment_no }}{% endblock %}
 {% block content %}
 <div class="voucher">
-  <img class="voucher-logo" src="/static/img/razz-cpl-logo.png" alt="RAZZ Construction And Properties Ltd">
+  <img class="voucher-logo" src="/static/img/razz-cpl-logo.jpg" alt="RAZZ Creative Properties Ltd">
   <h2 style="text-align:center">{{ settings.name if settings else 'Razz CNPL' }}</h2>
   <h3 style="text-align:center">VENDOR PAYMENT VOUCHER</h3>
   <p>Payment: <strong>{{ item.payment_no }}</strong> &nbsp; Date: {{ item.payment_date|dmy }}</p>

@@ -98,14 +98,15 @@ def test_vouchers_print(client):
 def test_logo_on_login_and_dashboard(client):
     login_page = client.get("/login")
     assert login_page.status_code == 200
-    assert "/static/img/razz-cpl-logo.png" in login_page.text
-    logo = client.get("/static/img/razz-cpl-logo.png")
+    assert "/static/img/razz-cpl-logo.jpg" in login_page.text
+    logo = client.get("/static/img/razz-cpl-logo.jpg")
     assert logo.status_code == 200
-    assert logo.content[:8] == b"\x89PNG\r\n\x1a\n"
+    assert logo.content[:3] == b"\xff\xd8\xff"
     login(client, "admin", "admin123")
     dash = client.get("/")
     assert dash.status_code == 200
-    assert "/static/img/razz-cpl-logo.png" in dash.text
+    assert "/static/img/razz-cpl-logo.jpg" in dash.text
+    assert "6,10,95,000.00" in dash.text
 
 
 def test_language_toggle(client):
