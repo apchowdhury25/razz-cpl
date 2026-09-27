@@ -16,3 +16,4 @@ backups/
 Thumbs.db
 .env
 data/
+scripts/open_dashboard.py
