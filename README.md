@@ -2,7 +2,7 @@
 
 **বাংলা সংস্করণ:** [README.bn.md](README.bn.md)
 
-For a full step-by-step handbook (including database location and troubleshooting), see **[USER-GUIDE.md](USER-GUIDE.md)**.
+For a full step-by-step handbook (including database location and troubleshooting), see **[USER-GUIDE.md](USER-GUIDE.md)** ([বাংলা](USER-GUIDE.bn.md)).
 
 Internal accounting system for **Razz CNPL**, Dhaka. Use it for day-to-day accounts receivable (money customers owe), accounts payable (money owed to vendors), project tracking, cash/bank, VAT/TDS, and management reports.
 

@@ -1,5 +1,7 @@
 # Razz CNPL Accounts — Step-by-step user guide
 
+**বাংলা সংস্করণ:** [USER-GUIDE.bn.md](USER-GUIDE.bn.md)
+
 This is the day-to-day handbook for accounts staff. Technical setup is also included at the end.
 
 Open the app at [http://127.0.0.1:8000](http://127.0.0.1:8000).
