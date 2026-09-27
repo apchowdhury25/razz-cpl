@@ -64,6 +64,7 @@ function initNavLayout() {
   const DEFAULT = 272;
   const setWidth = (px) => {
     const width = Math.min(MAX, Math.max(MIN, Math.round(px)));
+    layout.style.setProperty("--sidebar", width + "px");
     document.documentElement.style.setProperty("--sidebar", width + "px");
     localStorage.setItem(WIDTH_KEY, String(width));
     return width;
@@ -95,7 +96,8 @@ function initNavLayout() {
   });
   window.addEventListener("mousemove", (event) => {
     if (!dragging) return;
-    setWidth(event.clientX);
+    const left = layout.getBoundingClientRect().left;
+    setWidth(event.clientX - left);
   });
   window.addEventListener("mouseup", () => {
     if (!dragging) return;
