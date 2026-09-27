@@ -95,6 +95,19 @@ def test_vouchers_print(client):
     assert "VOUCHER" in bill.text
 
 
+def test_logo_on_login_and_dashboard(client):
+    login_page = client.get("/login")
+    assert login_page.status_code == 200
+    assert "/static/img/razz-cpl-logo.png" in login_page.text
+    logo = client.get("/static/img/razz-cpl-logo.png")
+    assert logo.status_code == 200
+    assert logo.content[:8] == b"\x89PNG\r\n\x1a\n"
+    login(client, "admin", "admin123")
+    dash = client.get("/")
+    assert dash.status_code == 200
+    assert "/static/img/razz-cpl-logo.png" in dash.text
+
+
 def test_language_toggle(client):
     login(client, "admin", "admin123")
     client.get("/lang/bn")

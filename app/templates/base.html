@@ -4,13 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}{{ t('app_name') }}{% endblock %}</title>
+  <link rel="icon" type="image/png" href="/static/img/razz-cpl-logo.png">
   <link rel="stylesheet" href="/static/css/app.css">
 </head>
 <body>
 <div class="layout">
   <aside class="sidebar no-print">
     <div class="brand">
-      <div class="mark">RC</div>
+      <a href="/" class="brand-link">
+        <img class="brand-logo" src="/static/img/razz-cpl-logo.png" alt="RAZZ Construction And Properties Ltd">
+      </a>
       <div>
         <h1>{{ settings.name if settings else 'Razz CNPL' }}</h1>
         <small>{{ t('app_name') }}</small>

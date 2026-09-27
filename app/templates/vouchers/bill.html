@@ -2,6 +2,7 @@
 {% block heading %}Debit voucher {{ item.bill_no }}{% endblock %}
 {% block content %}
 <div class="voucher">
+  <img class="voucher-logo" src="/static/img/razz-cpl-logo.png" alt="RAZZ Construction And Properties Ltd">
   <h2 style="text-align:center">{{ settings.name if settings else 'Razz CNPL' }}</h2>
   <h3 style="text-align:center">VENDOR BILL / DEBIT VOUCHER</h3>
   <p>Voucher: <strong>{{ item.bill_no }}</strong> &nbsp; Date: {{ item.bill_date|dmy }}</p>
