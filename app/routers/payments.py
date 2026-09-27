@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session, selectinload
 from app.database import get_db
 from app.deps import can_reverse, can_write, login_required, verify_csrf
 from app.exceptions import ValidationError
-from app.helpers import flash, optional_int, paginate, parse_date, parse_money, require_date
+from app.helpers import dmy, flash, optional_int, paginate, parse_date, parse_money, require_date
 from app.models import MoneyAccount, User, Vendor, VendorBill, VendorPayment
 from app.money import money
 from app.services.ap import POSTED_AP, cancel_payment, create_payment, post_payment, set_payment_allocations
@@ -49,7 +49,7 @@ def list_payments(request: Request, db: Session = Depends(get_db), user: User = 
         return excel_response(
             title="Payments Register",
             headers=["Payment", "Date", "Vendor", "Amount", "Method", "Status"],
-            rows=[[r.payment_no, r.payment_date.strftime("%d-%m-%Y"), r.vendor.name if r.vendor else "", r.amount, r.payment_method, r.status] for r in rows],
+            rows=[[r.payment_no, dmy(r.payment_date), r.vendor.name if r.vendor else "", r.amount, r.payment_method, r.status] for r in rows],
             filename="Payments Register.xlsx",
             company=company(db).name if company(db) else "Razz CNPL",
         )

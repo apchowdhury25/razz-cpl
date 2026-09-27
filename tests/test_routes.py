@@ -103,6 +103,10 @@ def test_logo_on_login_and_dashboard(client):
     assert logo.status_code == 200
     assert logo.content[:3] == b"\xff\xd8\xff"
     login(client, "admin", "admin123")
+    invoices = client.get("/ar/invoices")
+    assert invoices.status_code == 200
+    assert "15/07/2026" in invoices.text
+    assert "15-07-2026" not in invoices.text
     dash = client.get("/")
     assert dash.status_code == 200
     assert "/static/img/razz-cpl-logo.jpg" in dash.text

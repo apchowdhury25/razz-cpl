@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session, selectinload
 from app.database import get_db
 from app.deps import can_write, login_required, verify_csrf
 from app.exceptions import ValidationError
-from app.helpers import flash, optional_int, parse_date, parse_money, require_date
+from app.helpers import dmy, flash, optional_int, parse_date, parse_money, require_date
 from app.models import BankTransfer, ChartOfAccount, MoneyAccount, OtherCashTxn, User
 from app.services.cash_bank import (
     cancel_transfer,
@@ -192,7 +192,7 @@ def _book(request, db, user, acc_type, filename, template, nav):
         return excel_response(
             title=f"{acc_type.title()} Book",
             headers=["Date", "Journal", "Document", "Description", "Debit", "Credit", "Balance"],
-            rows=[[l["date"].strftime("%d-%m-%Y"), l["entry_no"], l["document"], l["description"], l["debit"], l["credit"], l["balance"]] for l in lines],
+            rows=[[dmy(l["date"]), l["entry_no"], l["document"], l["description"], l["debit"], l["credit"], l["balance"]] for l in lines],
             filename=filename,
             company=company(db).name if company(db) else "Razz CNPL",
             filters=account.name,

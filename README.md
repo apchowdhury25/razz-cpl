@@ -299,7 +299,7 @@ Click **Export Excel** for a real `.xlsx` file (company name, filters, timestamp
 | Receipts / payments register | Export on those lists |
 | Daily / monthly transactions | Reports |
 
-Currency displays in Bangladeshi grouping with two decimals, for example `৳ 12,50,000.00` and `৳ 1,00,000.00` (not `100,000.00`). Dates display as **DD-MM-YYYY**.
+Currency displays in Bangladeshi grouping with two decimals, for example `৳ 12,50,000.00` and `৳ 1,00,000.00` (not `100,000.00`). Dates display as **DD/MM/YYYY** (for example `09/03/2026` is 9 March 2026).
 
 ---
 

@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session, selectinload
 from app.database import get_db
 from app.deps import can_reverse, can_write, login_required, verify_csrf
 from app.exceptions import ValidationError
-from app.helpers import flash, optional_int, paginate, parse_date, parse_money, require_date
+from app.helpers import dmy, flash, optional_int, paginate, parse_date, parse_money, require_date
 from app.models import Customer, CustomerInvoice, DocStatus, MoneyAccount, MoneyReceipt, User
 from app.money import money
 from app.services.ar import POSTED_AR, cancel_receipt, create_receipt, post_receipt, set_receipt_allocations
@@ -52,7 +52,7 @@ def list_receipts(request: Request, db: Session = Depends(get_db), user: User = 
         return excel_response(
             title="Receipts Register",
             headers=["Receipt", "Date", "Customer", "Amount", "Method", "Status"],
-            rows=[[r.receipt_no, r.receipt_date.strftime("%d-%m-%Y"), r.customer.name if r.customer else "", r.amount, r.payment_method, r.status] for r in rows],
+            rows=[[r.receipt_no, dmy(r.receipt_date), r.customer.name if r.customer else "", r.amount, r.payment_method, r.status] for r in rows],
             filename="Receipts Register.xlsx",
             company=company(db).name if company(db) else "Razz CNPL",
         )

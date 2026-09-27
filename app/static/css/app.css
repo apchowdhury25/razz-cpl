@@ -103,6 +103,10 @@ form:not(.toolbar) p input, form:not(.toolbar) p select, form:not(.toolbar) p te
 .toolbar input, .toolbar select {
   width: 170px; max-width: 100%;
 }
+.date-wrap { display: inline-flex; align-items: center; gap: 4px; }
+.date-wrap .date-input { width: 118px; }
+.date-wrap .date-native { width: 2.4em; padding: 6px 2px; cursor: pointer; }
+.toolbar .date-wrap .date-input { width: 118px; }
 .toolbar input[name="q"] { width: 200px; }
 .toolbar .btn, .toolbar a.btn { width: auto; white-space: nowrap; }
 .card table { min-width: 640px; }

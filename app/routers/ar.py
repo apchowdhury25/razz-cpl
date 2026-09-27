@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session, selectinload
 from app.database import get_db
 from app.deps import can_approve, can_reverse, can_write, login_required, verify_csrf
 from app.exceptions import ValidationError
-from app.helpers import flash, optional_int, paginate, parse_date, parse_money, require_date
+from app.helpers import dmy, flash, optional_int, paginate, parse_date, parse_money, require_date
 from app.models import Customer, CustomerCreditNote, CustomerInvoice, DocStatus, Unit, User
 from app.money import ZERO
 from app.services.ar import (
@@ -178,10 +178,10 @@ def aging(request: Request, db: Session = Depends(get_db), user: User = Depends(
         return excel_response(
             title="AR Aging",
             headers=["Customer", "Invoice", "Due date", "Days", "Bucket", "Outstanding"],
-            rows=[[r["customer"], r["invoice_no"], r["due_date"].strftime("%d-%m-%Y"), r["days"], r["bucket"], r["outstanding"]] for r in rows],
+            rows=[[r["customer"], r["invoice_no"], dmy(r["due_date"]), r["days"], r["bucket"], r["outstanding"]] for r in rows],
             filename="AR Aging.xlsx",
             company=company(db).name if company(db) else "Razz CNPL",
-            filters=f"As of {as_of.strftime('%d-%m-%Y')}",
+            filters=f"As of {dmy(as_of)}",
         )
     return render(
         request, db, "ar/aging.html", user, nav="ar_aging", rows=rows, totals=totals, as_of=as_of,
@@ -202,7 +202,7 @@ def ledger(request: Request, db: Session = Depends(get_db), user: User = Depends
         return excel_response(
             title="Customer Ledger",
             headers=["Date", "Document", "Description", "Debit", "Credit", "Balance"],
-            rows=[[e["date"].strftime("%d-%m-%Y"), e["document"], e["description"], e["debit"], e["credit"], e["balance"]] for e in entries],
+            rows=[[dmy(e["date"]), e["document"], e["description"], e["debit"], e["credit"], e["balance"]] for e in entries],
             filename="Customer Ledger.xlsx",
             company=company(db).name if company(db) else "Razz CNPL",
             filters=customer.name,

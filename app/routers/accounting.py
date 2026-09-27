@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session, selectinload
 from app.database import get_db
 from app.deps import can_write, login_required, verify_csrf
 from app.exceptions import ValidationError
-from app.helpers import flash, optional_int, paginate, parse_date, parse_money, require_date
+from app.helpers import dmy, flash, optional_int, paginate, parse_date, parse_money, require_date
 from app.models import ChartOfAccount, DocStatus, JournalEntry, JournalLine, User
 from app.money import ZERO, money
 from app.services.accounting import create_journal, general_ledger, trial_balance
@@ -137,7 +137,7 @@ def gl(request: Request, db: Session = Depends(get_db), user: User = Depends(log
         return excel_response(
             title="General Ledger",
             headers=["Date", "Journal", "Document", "Description", "Debit", "Credit", "Balance"],
-            rows=[[l["date"].strftime("%d-%m-%Y"), l["entry_no"], l["document"], l["description"], l["debit"], l["credit"], l["balance"]] for l in lines],
+            rows=[[dmy(l["date"]), l["entry_no"], l["document"], l["description"], l["debit"], l["credit"], l["balance"]] for l in lines],
             filename="General Ledger.xlsx",
             company=company(db).name if company(db) else "Razz CNPL",
             filters=f"{account.code} {account.name}",

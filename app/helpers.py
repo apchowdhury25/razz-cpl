@@ -33,15 +33,21 @@ def pop_flash(request: Request) -> list[dict[str, str]]:
 
 
 def parse_date(value: str | None, field: str = "Date") -> date | None:
+    """Parse a user date as DD/MM/YYYY (Bangladeshi). Never MM/DD/YYYY."""
     if not value:
         return None
     value = value.strip()
-    for fmt in ("%Y-%m-%d", "%d-%m-%Y", "%d/%m/%Y"):
+    for fmt in ("%d/%m/%Y", "%d-%m-%Y", "%Y-%m-%d"):
         try:
-            return datetime.strptime(value, fmt).date()
+            parsed = datetime.strptime(value, fmt).date()
+            if fmt == "%d/%m/%Y" or fmt == "%d-%m-%Y":
+                day_s, month_s, _year_s = value.replace("-", "/").split("/")
+                if int(day_s) != parsed.day or int(month_s) != parsed.month:
+                    raise ValueError("day/month mismatch")
+            return parsed
         except ValueError:
             continue
-    raise ValidationError(f"{field} is invalid. Use DD-MM-YYYY.")
+    raise ValidationError(f"{field} is invalid. Use DD/MM/YYYY.")
 
 
 def require_date(value: str | None, field: str = "Date") -> date:
@@ -67,12 +73,17 @@ def optional_int(value: str | None) -> int | None:
     return int(value)
 
 
-def dmy(value: date | datetime | None) -> str:
+def format_date(value: date | datetime | None) -> str:
+    """User-facing Bangladeshi date: DD/MM/YYYY with leading zeros."""
     if value is None:
         return ""
     if isinstance(value, datetime):
-        return value.strftime("%d-%m-%Y %H:%M")
-    return value.strftime("%d-%m-%Y")
+        return value.strftime("%d/%m/%Y %H:%M")
+    return value.strftime("%d/%m/%Y")
+
+
+def dmy(value: date | datetime | None) -> str:
+    return format_date(value)
 
 
 def paginate(db: Session, stmt, page: int, per_page: int = PAGE_SIZE):

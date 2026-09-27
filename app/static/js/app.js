@@ -28,6 +28,83 @@ function formatBDT(value, withSymbol) {
   return withSymbol === false ? formatted : "৳ " + formatted;
 }
 
+function pad2(n) {
+  return String(n).padStart(2, "0");
+}
+
+function formatDate(value) {
+  if (!value) return "";
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    return `${pad2(value.getDate())}/${pad2(value.getMonth() + 1)}/${value.getFullYear()}`;
+  }
+  const iso = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(value).trim());
+  if (iso) return `${iso[3]}/${iso[2]}/${iso[1]}`;
+  const dmy = /^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/.exec(String(value).trim());
+  if (dmy) return `${pad2(dmy[1])}/${pad2(dmy[2])}/${dmy[3]}`;
+  return "";
+}
+
+function parseDateDmy(str) {
+  const m = /^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/.exec(String(str || "").trim());
+  if (!m) return null;
+  const day = parseInt(m[1], 10);
+  const month = parseInt(m[2], 10);
+  const year = parseInt(m[3], 10);
+  const dt = new Date(year, month - 1, day);
+  if (dt.getFullYear() !== year || dt.getMonth() !== month - 1 || dt.getDate() !== day) return null;
+  return dt;
+}
+
+function toIsoDate(dt) {
+  return `${dt.getFullYear()}-${pad2(dt.getMonth() + 1)}-${pad2(dt.getDate())}`;
+}
+
+function enhanceDateInputs() {
+  document.querySelectorAll('input[type="date"]').forEach((native) => {
+    if (native.dataset.enhanced === "1") return;
+    native.dataset.enhanced = "1";
+    const wrap = document.createElement("span");
+    wrap.className = "date-wrap";
+    const text = document.createElement("input");
+    text.type = "text";
+    text.className = "date-input";
+    text.name = native.name;
+    text.id = native.id;
+    text.required = native.required;
+    text.placeholder = "DD/MM/YYYY";
+    text.maxLength = 10;
+    text.autocomplete = "off";
+    text.inputMode = "numeric";
+    text.value = formatDate(native.value);
+    native.removeAttribute("name");
+    native.removeAttribute("id");
+    native.removeAttribute("required");
+    native.classList.add("date-native");
+    native.setAttribute("aria-label", "Open calendar");
+    native.title = "Open calendar";
+    native.addEventListener("change", () => {
+      text.value = formatDate(native.value);
+    });
+    text.addEventListener("change", () => {
+      const parsed = parseDateDmy(text.value);
+      if (!parsed) {
+        if (text.value.trim()) {
+          text.setCustomValidity("Use DD/MM/YYYY, for example 09/03/2026.");
+          text.reportValidity();
+        }
+        return;
+      }
+      text.setCustomValidity("");
+      text.value = formatDate(parsed);
+      native.value = toIsoDate(parsed);
+    });
+    text.addEventListener("input", () => text.setCustomValidity(""));
+    native.parentNode.insertBefore(wrap, native);
+    wrap.appendChild(text);
+    wrap.appendChild(native);
+  });
+}
+
 function parseMoneyInput(raw) {
   if (raw === null || raw === undefined) return 0;
   const cleaned = String(raw).replace(/৳/g, "").replace(/,/g, "").trim();
@@ -114,4 +191,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   recalcBill();
   initNavLayout();
+  enhanceDateInputs();
 });

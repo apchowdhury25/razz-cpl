@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.deps import can_config, can_write, login_required, verify_csrf
 from app.exceptions import ValidationError
-from app.helpers import flash, optional_int, parse_date, parse_money, require_date
+from app.helpers import dmy, flash, optional_int, parse_date, parse_money, require_date
 from app.models import CompanySettings, TaxCategory, User
 from app.money import money
 from app.services.excel import excel_response
@@ -96,7 +96,7 @@ def vat_report(request: Request, db: Session = Depends(get_db), user: User = Dep
         return excel_response(
             title="VAT / Input VAT",
             headers=["Date", "Vendor", "Bill", "Mushak", "Taxable", "VAT %", "VAT"],
-            rows=[[r.bill_date.strftime("%d-%m-%Y"), r.vendor.name if r.vendor else "", r.bill_no, r.mushak_ref, r.gross_amount, r.vat_percent, r.vat_amount] for r in rows],
+            rows=[[dmy(r.bill_date), r.vendor.name if r.vendor else "", r.bill_no, r.mushak_ref, r.gross_amount, r.vat_percent, r.vat_amount] for r in rows],
             filename="VAT Report.xlsx",
             company=company(db).name if company(db) else "Razz CNPL",
         )
@@ -114,7 +114,7 @@ def tds_report(request: Request, db: Session = Depends(get_db), user: User = Dep
         return excel_response(
             title="TDS Payable",
             headers=["Date", "Vendor", "Bill", "Gross", "TDS %", "TDS", "Remitted", "Certificate"],
-            rows=[[r.bill_date.strftime("%d-%m-%Y"), r.vendor.name if r.vendor else "", r.bill_no, r.gross_amount, r.tds_percent, r.tds_amount, "Yes" if r.tds_remitted else "No", r.tds_certificate_no] for r in rows],
+            rows=[[dmy(r.bill_date), r.vendor.name if r.vendor else "", r.bill_no, r.gross_amount, r.tds_percent, r.tds_amount, "Yes" if r.tds_remitted else "No", r.tds_certificate_no] for r in rows],
             filename="TDS Payable.xlsx",
             company=company(db).name if company(db) else "Razz CNPL",
         )

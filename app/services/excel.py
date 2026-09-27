@@ -43,7 +43,9 @@ def excel_response(
     ws["A2"] = title
     ws["A2"].font = Font(bold=True, size=12)
     ws["A3"] = filters
-    ws["A4"] = f"Generated: {datetime.now().strftime('%d-%m-%Y %H:%M')}"
+    from app.helpers import format_date
+
+    ws["A4"] = f"Generated: {format_date(datetime.now())}"
 
     start_row = 6
     for col, header in enumerate(headers, 1):
