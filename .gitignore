@@ -7,6 +7,7 @@ env/
 *.db
 *.sqlite
 *.sqlite3
+!data/razz_accounts.db
 .pytest_cache/
 .coverage
 htmlcov/
@@ -15,5 +16,10 @@ backups/
 .DS_Store
 Thumbs.db
 .env
-data/
+data/*
+!data/razz_accounts.db
+data/qa-shots/
+data/pytest_razz.db
+*.db-wal
+*.db-shm
 scripts/open_dashboard.py
