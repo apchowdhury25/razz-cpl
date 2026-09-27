@@ -52,10 +52,64 @@ function recalcBill() {
   set("preview_net", net);
 }
 
+function initSidebarResize() {
+  const splitter = document.getElementById("sidebar-splitter");
+  if (!splitter) return;
+  const KEY = "razz-sidebar-width";
+  const MIN = 200;
+  const MAX = 520;
+  const DEFAULT = 272;
+  const apply = (px) => {
+    const width = Math.min(MAX, Math.max(MIN, Math.round(px)));
+    document.documentElement.style.setProperty("--sidebar", width + "px");
+    splitter.setAttribute("aria-valuenow", String(width));
+    return width;
+  };
+  const saved = parseInt(localStorage.getItem(KEY) || "", 10);
+  if (saved) apply(saved);
+  splitter.setAttribute("aria-valuemin", String(MIN));
+  splitter.setAttribute("aria-valuemax", String(MAX));
+  let dragging = false;
+  splitter.addEventListener("mousedown", (event) => {
+    dragging = true;
+    document.body.classList.add("is-resizing");
+    event.preventDefault();
+  });
+  window.addEventListener("mousemove", (event) => {
+    if (!dragging) return;
+    apply(event.clientX);
+  });
+  window.addEventListener("mouseup", () => {
+    if (!dragging) return;
+    dragging = false;
+    document.body.classList.remove("is-resizing");
+    const current = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--sidebar"), 10);
+    localStorage.setItem(KEY, String(current || DEFAULT));
+  });
+  splitter.addEventListener("dblclick", () => {
+    apply(DEFAULT);
+    localStorage.setItem(KEY, String(DEFAULT));
+  });
+  splitter.addEventListener("keydown", (event) => {
+    const current = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--sidebar"), 10) || DEFAULT;
+    if (event.key === "ArrowLeft") {
+      localStorage.setItem(KEY, String(apply(current - 16)));
+      event.preventDefault();
+    } else if (event.key === "ArrowRight") {
+      localStorage.setItem(KEY, String(apply(current + 16)));
+      event.preventDefault();
+    } else if (event.key === "Home") {
+      localStorage.setItem(KEY, String(apply(DEFAULT)));
+      event.preventDefault();
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   ["gross_amount", "vat_percent", "tds_percent", "retention_percent"].forEach((id) => {
     const el = document.getElementById(id);
     if (el) el.addEventListener("input", recalcBill);
   });
   recalcBill();
+  initSidebarResize();
 });
