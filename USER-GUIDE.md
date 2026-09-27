@@ -135,6 +135,12 @@ python run.py --init --seed
 
 Then browse to http://127.0.0.1:8000
 
+To watch a headed Chrome demo that creates **20 matching records on each entry page** (buyer 01 ↔ unit 01 ↔ booking; vendor 01 ↔ bill ↔ payment):
+
+```powershell
+.\.venv\Scripts\python -u scripts\e2e_browser_demo.py
+```
+
 | Flag | Meaning |
 |------|---------|
 | `--init` | Create tables if missing |

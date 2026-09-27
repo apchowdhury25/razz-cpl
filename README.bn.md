@@ -371,6 +371,12 @@ python run.py --init --seed --host 127.0.0.1 --port 8000
 .\.venv\Scripts\python -m pytest tests -q
 ```
 
+দৃশ্যমান ক্রোম ডেমো (প্রতি এন্ট্রি স্ক্রিনে ২০টি মিল রেকর্ড: ক্রেতা ০১ ইউনিট ০১ বুক করে, ভেন্ডর ০১-এর বিল ও পেমেন্ট ইত্যাদি):
+
+```powershell
+.\.venv\Scripts\python -u scripts\e2e_browser_demo.py
+```
+
 ---
 
 ## ১৩. ডেটাবেসের স্থান ও ব্যাকআপ

@@ -373,6 +373,12 @@ To confirm the sample figures after seeding:
 .\.venv\Scripts\python -m pytest tests -q
 ```
 
+Visible Chrome demo (20 consistent records per entry screen: buyer 01 books unit 01, vendor 01 is billed and paid, and so on):
+
+```powershell
+.\.venv\Scripts\python -u scripts\e2e_browser_demo.py
+```
+
 ---
 
 ## 13. Database location and backup
