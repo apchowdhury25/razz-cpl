@@ -15,6 +15,7 @@ from app.money import amount_in_words_bn, amount_in_words_en, format_money
 
 TEMPLATES_DIR = Path(__file__).parent / "templates"
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
+ASSET_V = "20260927c"
 templates.env.filters["money"] = format_money
 templates.env.filters["bdt"] = format_money
 templates.env.filters["dmy"] = dmy
@@ -44,6 +45,7 @@ def render(request: Request, db: Session, name: str, user, **ctx):
         "can_config": can_config(user) if user else False,
         "can_reverse": can_reverse(user) if user else False,
         "nav": ctx.pop("nav", ""),
+        "asset_v": ASSET_V,
         **ctx,
     }
     status_code = context.pop("status_code", 200)

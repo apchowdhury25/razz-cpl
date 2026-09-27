@@ -12,10 +12,10 @@
   --warn: #9a6700;
   --sidebar: 272px;
   --shadow: 0 10px 30px rgba(28, 25, 20, 0.06);
-  font-family: "Nirmala UI", "Segoe UI", "Kalpurush", "Noto Sans Bengali", sans-serif;
+  font-family: "Segoe UI", "Nirmala UI", "Kalpurush", "Noto Sans Bengali", sans-serif;
 }
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; width: 100%; background: var(--paper); color: var(--ink); overflow-x: hidden; }
+html, body { margin: 0; padding: 0; width: 100%; min-height: 100%; background: var(--paper); color: var(--ink); }
 a { color: var(--teal); text-decoration: none; }
 a:hover { text-decoration: underline; }
 .layout { display: flex; width: 100%; min-height: 100vh; align-items: stretch; }
@@ -75,11 +75,24 @@ table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
 th { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: #faf7f0; }
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: end; margin-bottom: 14px; }
+.toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 14px; }
+.toolbar form { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; flex: 1 1 auto; margin: 0; }
+.toolbar p { margin: 0; min-width: 150px; }
 label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
 input, select, textarea {
-  width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font: inherit; color: inherit;
+  padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font: inherit; color: inherit;
 }
+.card form input, .card form select, .card form textarea,
+.grid input, .grid select, .grid textarea,
+form:not(.toolbar) p input, form:not(.toolbar) p select, form:not(.toolbar) p textarea {
+  width: 100%;
+}
+.toolbar input, .toolbar select {
+  width: 170px; max-width: 100%;
+}
+.toolbar input[name="q"] { width: 200px; }
+.toolbar .btn, .toolbar a.btn { width: auto; white-space: nowrap; }
+.card { overflow-x: auto; }
 textarea { min-height: 80px; }
 .btn {
   background: var(--teal); color: #fff; border: 0; border-radius: 8px; padding: 8px 14px; font-weight: 600; cursor: pointer;

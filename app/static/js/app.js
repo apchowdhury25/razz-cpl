@@ -77,7 +77,12 @@ function initNavLayout() {
     localStorage.setItem(HIDE_KEY, hidden ? "1" : "0");
   };
   const savedWidth = parseInt(localStorage.getItem(WIDTH_KEY) || "", 10);
-  if (savedWidth) setWidth(savedWidth);
+  if (Number.isFinite(savedWidth) && savedWidth >= MIN && savedWidth <= MAX) {
+    setWidth(savedWidth);
+  } else {
+    localStorage.removeItem(WIDTH_KEY);
+    setWidth(DEFAULT);
+  }
   setHidden(localStorage.getItem(HIDE_KEY) === "1");
   toggle.addEventListener("click", () => setHidden(!layout.classList.contains("nav-hidden")));
   if (!splitter) return;

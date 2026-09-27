@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}{{ t('app_name') }}{% endblock %}</title>
   <link rel="icon" type="image/jpeg" href="/static/img/razz-cpl-logo.jpg">
-  <link rel="stylesheet" href="/static/css/app.css">
+  <link rel="stylesheet" href="/static/css/app.css?v={{ asset_v }}">
 </head>
 <body>
 <div class="layout" id="app-layout">
@@ -91,6 +91,6 @@
     {% block content %}{% endblock %}
   </main>
 </div>
-<script src="/static/js/app.js"></script>
+<script src="/static/js/app.js?v={{ asset_v }}"></script>
 </body>
 </html>
