@@ -52,10 +52,59 @@ function recalcBill() {
   set("preview_net", net);
 }
 
+function initNavLayout() {
+  const layout = document.getElementById("app-layout");
+  const splitter = document.getElementById("sidebar-splitter");
+  const toggle = document.getElementById("nav-toggle");
+  if (!layout || !toggle) return;
+  const WIDTH_KEY = "razz-sidebar-width";
+  const HIDE_KEY = "razz-sidebar-hidden";
+  const MIN = 200;
+  const MAX = 480;
+  const DEFAULT = 272;
+  const setWidth = (px) => {
+    const width = Math.min(MAX, Math.max(MIN, Math.round(px)));
+    document.documentElement.style.setProperty("--sidebar", width + "px");
+    localStorage.setItem(WIDTH_KEY, String(width));
+    return width;
+  };
+  const setHidden = (hidden) => {
+    layout.classList.toggle("nav-hidden", hidden);
+    toggle.setAttribute("aria-expanded", hidden ? "false" : "true");
+    const label = hidden ? (toggle.dataset.show || "Show navigation") : (toggle.dataset.hide || "Hide navigation");
+    toggle.setAttribute("title", label);
+    toggle.setAttribute("aria-label", label);
+    localStorage.setItem(HIDE_KEY, hidden ? "1" : "0");
+  };
+  const savedWidth = parseInt(localStorage.getItem(WIDTH_KEY) || "", 10);
+  if (savedWidth) setWidth(savedWidth);
+  setHidden(localStorage.getItem(HIDE_KEY) === "1");
+  toggle.addEventListener("click", () => setHidden(!layout.classList.contains("nav-hidden")));
+  if (!splitter) return;
+  let dragging = false;
+  splitter.addEventListener("mousedown", (event) => {
+    if (layout.classList.contains("nav-hidden")) return;
+    dragging = true;
+    document.body.classList.add("is-resizing");
+    event.preventDefault();
+  });
+  window.addEventListener("mousemove", (event) => {
+    if (!dragging) return;
+    setWidth(event.clientX);
+  });
+  window.addEventListener("mouseup", () => {
+    if (!dragging) return;
+    dragging = false;
+    document.body.classList.remove("is-resizing");
+  });
+  splitter.addEventListener("dblclick", () => setWidth(DEFAULT));
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   ["gross_amount", "vat_percent", "tds_percent", "retention_percent"].forEach((id) => {
     const el = document.getElementById(id);
     if (el) el.addEventListener("input", recalcBill);
   });
   recalcBill();
+  initNavLayout();
 });

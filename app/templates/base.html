@@ -8,8 +8,8 @@
   <link rel="stylesheet" href="/static/css/app.css">
 </head>
 <body>
-<div class="layout">
-  <aside class="sidebar no-print">
+<div class="layout" id="app-layout">
+  <aside class="sidebar no-print" id="app-sidebar">
     <div class="brand">
       <a href="/" class="brand-link" title="{{ settings.name if settings else 'Razz CNPL' }}">
         <img class="brand-logo" src="/static/img/razz-cpl-logo.jpg" alt="RAZZ Creative Properties Ltd">
@@ -62,11 +62,15 @@
       {% endif %}
     </nav>
   </aside>
+  <div class="splitter no-print" id="sidebar-splitter" role="separator" aria-orientation="vertical" aria-label="{{ t('hide_nav') }}"></div>
   <main class="main">
     <div class="topbar no-print">
-      <div>
-        <div class="crumbs">{% block crumbs %}{{ t('dashboard') }}{% endblock %}</div>
-        <h2>{% block heading %}{{ t('dashboard') }}{% endblock %}</h2>
+      <div class="title-block">
+        <button type="button" class="nav-toggle" id="nav-toggle" aria-controls="app-sidebar" aria-expanded="true" data-hide="{{ t('hide_nav') }}" data-show="{{ t('show_nav') }}" title="{{ t('hide_nav') }}">☰</button>
+        <div>
+          <div class="crumbs">{% block crumbs %}{{ t('dashboard') }}{% endblock %}</div>
+          <h2>{% block heading %}{{ t('dashboard') }}{% endblock %}</h2>
+        </div>
       </div>
       <div class="userbox">
         <span class="lang chip">

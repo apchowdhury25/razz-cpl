@@ -107,7 +107,9 @@ def test_logo_on_login_and_dashboard(client):
     assert dash.status_code == 200
     assert "/static/img/razz-cpl-logo.jpg" in dash.text
     assert "6,10,95,000.00" in dash.text
-    assert 'id="sidebar-splitter"' not in dash.text
+    assert 'id="sidebar-splitter"' in dash.text
+    assert 'id="nav-toggle"' in dash.text
+    assert 'class="layout nav-hidden"' not in dash.text
     assert "<h1>Razz CNPL</h1>" not in dash.text
     assert "Razz CNPL Accounts" not in dash.text.split("sidebar")[1].split("</aside>")[0]
 
