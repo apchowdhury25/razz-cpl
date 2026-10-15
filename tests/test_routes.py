@@ -112,6 +112,7 @@ def test_logo_on_login_and_dashboard(client):
     assert dash.status_code == 200
     sidebar = dash.text.split("<aside", 1)[1].split("</aside>", 1)[0]
     assert "RAZZ Construction and Properties" in sidebar
+    assert 'class="brand-name">RAZZ</span><span class="brand-rest">Construction and Properties</span>' in sidebar
     assert "razz-cpl-logo.jpg" not in sidebar
     assert "৳" in dash.text
     assert 'id="sidebar-splitter"' in dash.text

@@ -66,12 +66,25 @@ body.is-resizing iframe, body.is-resizing img { pointer-events: none; }
   font-weight: 700;
   line-height: 1.28;
   letter-spacing: 0.035em;
-  color: #f2d48a;
+  color: #d4af37;
   text-shadow:
-    0 1px 0 #fff6d4,
-    0 -1px 0 #6a4e10,
-    0 2px 1px #3d2c08,
-    0 3px 3px rgba(0, 0, 0, 0.5);
+    0 1px 0 #f6e27a,
+    0 -1px 0 #7a5a0c,
+    0 2px 2px rgba(48, 32, 4, 0.55);
+}
+.sidebar .brand-name,
+.sidebar .brand-rest { display: block; }
+.sidebar .brand-name {
+  font-size: 22px;
+  letter-spacing: 0.18em;
+  line-height: 1.1;
+}
+.sidebar .brand-rest {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.25;
 }
 .nav-group { margin: 16px 0 6px; padding: 0 10px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #8ea0b5; }
 .nav a {

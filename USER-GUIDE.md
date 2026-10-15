@@ -22,7 +22,7 @@ When the software changes, update this guide **and** [USER-GUIDE.bn.md](USER-GUI
 | `manager` | `manager123` | Approve and post |
 | `auditor` | `auditor123` | View only |
 
-The sign-in page and the side menu show **RAZZ Construction and Properties** in gold lettering, with no company logo image. After you sign in, the menu is slate and the working area is white on gray, with blue buttons. Printed vouchers still show the company logo.
+The sign-in page and the side menu show **RAZZ Construction and Properties** in gold lettering, with no company logo image. In the side menu, RAZZ is on the first line and Construction and Properties is on the line below. After you sign in, the menu is slate and the working area is white on gray, with blue buttons. Printed vouchers still show the company logo.
 
 Use **EN · বাংলা** in the top bar for language. Use **☰** to hide the left menu when you need a wider screen. Drag the thin bar between the menu and the page to resize the menu.
 
