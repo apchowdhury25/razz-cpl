@@ -1,7 +1,11 @@
-"""Visible Chrome demo: 20 consistent records on every major entry screen."""
+"""Visible Chrome demo: N consistent records on every major entry screen.
+
+Usage: python scripts/e2e_browser_demo.py [--count 20] [--headless] [--hold 600]
+"""
 
 from __future__ import annotations
 
+import argparse
 import re
 import time
 from datetime import datetime
@@ -108,8 +112,8 @@ def projects(page: Page) -> str:
         page.fill('input[name="code"]', code)
         page.fill('input[name="name"]', f"{PREFIX} Project {i:02d}")
         page.fill('input[name="name_bn"]', f"প্রকল্প {i:02d}")
-        page.select_option('select[name="mode"]', "DEVELOPER" if i != 20 else "CONTRACTOR")
-        if i == 20:
+        page.select_option('select[name="mode"]', "CONTRACTOR" if i == N else "DEVELOPER")
+        if i == N:
             page.fill('input[name="client_name"]', "BDRCS Demo")
             page.fill('input[name="contract_value"]', "5000000")
         fill_date(page, "start_date", "01/07/2026")
@@ -319,21 +323,37 @@ REVIEW = [
 ]
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Razz CNPL browser demo")
+    parser.add_argument("--count", type=int, default=20, help="Dummy records created per entry screen (1-28)")
+    parser.add_argument("--headless", action="store_true", help="Run without a visible browser window")
+    parser.add_argument("--hold", type=int, default=600, help="Seconds to keep the browser open at the end")
+    args = parser.parse_args()
+    if not 1 <= args.count <= 28:
+        parser.error("--count must be between 1 and 28 (dates are DD/09/2026)")
+    return args
+
+
 def main() -> None:
+    global N, PREFIX
+    args = parse_args()
+    N = args.count
+    PREFIX = f"E{N}-{STAMP}"
+    slow_mo = 0 if args.headless else 140
     with sync_playwright() as p:
         try:
             browser = p.chromium.launch(
-                headless=False,
+                headless=args.headless,
                 channel="chrome",
-                slow_mo=140,
+                slow_mo=slow_mo,
                 args=["--start-maximized"],
             )
         except Exception:
-            browser = p.chromium.launch(headless=False, slow_mo=140, args=["--start-maximized"])
+            browser = p.chromium.launch(headless=args.headless, slow_mo=slow_mo, args=["--start-maximized"])
         page = browser.new_page(viewport={"width": 1440, "height": 900})
         page.set_default_timeout(60000)
         login(page)
-        log(f"DEMO20_START prefix={PREFIX}")
+        log(f"DEMO_START count={N} prefix={PREFIX}")
         customers(page)
         vendors(page)
         project_id = projects(page)
@@ -353,8 +373,9 @@ def main() -> None:
             page.goto(f"{BASE}{path}", wait_until="networkidle")
             time.sleep(0.8)
         page.goto(f"{BASE}/", wait_until="networkidle")
-        log("DEMO20_DONE")
-        time.sleep(600)
+        log("DEMO_DONE")
+        if args.hold > 0:
+            time.sleep(args.hold)
         browser.close()
 
 

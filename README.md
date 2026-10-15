@@ -379,6 +379,8 @@ Visible Chrome demo (20 consistent records per entry screen: buyer 01 books unit
 .\.venv\Scripts\python -u scripts\e2e_browser_demo.py
 ```
 
+Optional arguments: `--count 20` (1–28 records per screen), `--headless` (no window), `--hold 600` (seconds to leave the browser open; `0` closes at once).
+
 ---
 
 ## 13. Database location and backup

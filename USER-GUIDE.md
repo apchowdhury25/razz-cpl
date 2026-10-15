@@ -141,6 +141,8 @@ To watch a headed Chrome demo that creates **20 matching records on each entry p
 .\.venv\Scripts\python -u scripts\e2e_browser_demo.py
 ```
 
+Optional demo arguments: `--count 20` (1–28 records per screen), `--headless` (no window), `--hold 600` (seconds to leave the browser open; `0` closes at once). The app must already be running at http://127.0.0.1:8000.
+
 | Flag | Meaning |
 |------|---------|
 | `--init` | Create tables if missing |
