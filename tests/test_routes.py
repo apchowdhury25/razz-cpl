@@ -97,7 +97,9 @@ def test_vouchers_print(client):
 def test_logo_on_login_and_dashboard(client):
     login_page = client.get("/login")
     assert login_page.status_code == 200
-    assert "/static/img/razz-cpl-logo.jpg" in login_page.text
+    assert "/static/img/razz-cpl-logo.jpg" not in login_page.text
+    assert "login-logo" not in login_page.text
+    assert "Razz CNPL Accounts" in login_page.text
     logo = client.get("/static/img/razz-cpl-logo.jpg")
     assert logo.status_code == 200
     assert logo.content[:3] == b"\xff\xd8\xff"

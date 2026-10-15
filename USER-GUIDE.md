@@ -22,6 +22,8 @@ When the software changes, update this guide **and** [USER-GUIDE.bn.md](USER-GUI
 | `manager` | `manager123` | Approve and post |
 | `auditor` | `auditor123` | View only |
 
+The sign-in page does not show the company logo. After you sign in, the menu is slate and the working area is white on gray, with blue buttons. Printed vouchers still show the company logo.
+
 Use **EN · বাংলা** in the top bar for language. Use **☰** to hide the left menu when you need a wider screen. Drag the thin bar between the menu and the page to resize the menu.
 
 ---

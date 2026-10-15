@@ -29,6 +29,8 @@ On the office PC, after the system has been started:
 2. Go to [http://127.0.0.1:8000](http://127.0.0.1:8000).
 3. Sign in with the username and password given to you.
 
+The sign-in page shows the product name. It does not show the company logo. Inside the app, pages are white on gray, actions are blue, and the menu is slate. Printed vouchers still show the company logo.
+
 If the page does not load, the application is not running. Ask the administrator to start it (see [First-time setup](#12-first-time-setup-it-administrator)).
 
 ---
