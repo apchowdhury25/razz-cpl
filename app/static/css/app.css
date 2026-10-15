@@ -54,11 +54,24 @@ body.is-resizing iframe, body.is-resizing img { pointer-events: none; }
 }
 .nav-toggle:hover { background: #f4f7fb; border-color: var(--blue); }
 .title-block { display: flex; align-items: flex-start; gap: 12px; min-width: 0; }
-.brand { padding: 0 0 16px; border-bottom: 1px solid rgba(255,255,255,.1); margin-bottom: 14px; }
-.brand-link { display: block; text-decoration: none; }
-.brand-logo {
-  display: block; max-width: 100%; width: 180px; height: auto; max-height: 96px; object-fit: contain;
-  background: #101820; border-radius: 6px; margin: 0 auto;
+.brand { padding: 2px 4px 16px; border-bottom: 1px solid rgba(255,255,255,.1); margin-bottom: 14px; }
+.brand-link { display: block; text-decoration: none; color: inherit; }
+.brand-link:hover { text-decoration: none; }
+.brand-wordmark {
+  display: block;
+  margin: 0;
+  text-align: center;
+  font-family: Georgia, "Palatino Linotype", Palatino, "Times New Roman", serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.28;
+  letter-spacing: 0.035em;
+  color: #f2d48a;
+  text-shadow:
+    0 1px 0 #fff6d4,
+    0 -1px 0 #6a4e10,
+    0 2px 1px #3d2c08,
+    0 3px 3px rgba(0, 0, 0, 0.5);
 }
 .nav-group { margin: 16px 0 6px; padding: 0 10px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #8ea0b5; }
 .nav a {
@@ -170,10 +183,16 @@ textarea { min-height: 80px; }
   padding: 24px 16px;
 }
 .login-card {
-  width: min(420px, 92vw); background: var(--card); padding: 28px 28px 22px;
+  width: min(420px, 92vw); background: var(--card); padding: 0 28px 22px;
   border-radius: 8px; border: 1px solid var(--line); border-top: 4px solid var(--blue);
-  box-shadow: 0 16px 40px rgba(18, 26, 36, 0.16);
+  box-shadow: 0 16px 40px rgba(18, 26, 36, 0.16); overflow: hidden;
 }
+.login-brand {
+  background: var(--slate);
+  margin: 0 -28px 18px;
+  padding: 22px 18px 18px;
+}
+.login-brand .brand-wordmark { font-size: 26px; }
 .login-lead { margin: 0 0 16px; }
 .demo {
   font-size: 12px; background: #f4f6f9; color: #3d4a5c;

@@ -99,7 +99,7 @@ def test_logo_on_login_and_dashboard(client):
     assert login_page.status_code == 200
     assert "/static/img/razz-cpl-logo.jpg" not in login_page.text
     assert "login-logo" not in login_page.text
-    assert "Razz CNPL Accounts" in login_page.text
+    assert "RAZZ Construction and Properties" in login_page.text
     logo = client.get("/static/img/razz-cpl-logo.jpg")
     assert logo.status_code == 200
     assert logo.content[:3] == b"\xff\xd8\xff"
@@ -110,7 +110,9 @@ def test_logo_on_login_and_dashboard(client):
     assert "15-07-2026" not in invoices.text
     dash = client.get("/")
     assert dash.status_code == 200
-    assert "/static/img/razz-cpl-logo.jpg" in dash.text
+    sidebar = dash.text.split("<aside", 1)[1].split("</aside>", 1)[0]
+    assert "RAZZ Construction and Properties" in sidebar
+    assert "razz-cpl-logo.jpg" not in sidebar
     assert "৳" in dash.text
     assert 'id="sidebar-splitter"' in dash.text
     assert 'id="nav-toggle"' in dash.text
